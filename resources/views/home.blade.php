@@ -1,23 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="jumbotron">
-        <h1>Digital World</h1> 
-        <h3>คุณอยากจะทำอะไรดี?</h3>
-        <ul>
-            <a href="{{ route('book') }}">
-                <li>อัพโหลดหนังสือ flipbook</li>
-            </a>
-            <a href="#" class="text-gray">
-                <li>อัพโหลดเอกสาร pdf (จะเปิดให้บริการเร็วๆนี้)</li>
-            </a>
-        </ul>
-        <hr>
-        <p>Application available on Android.</p>
-        <p><a href="https://play.google.com/store/apps/details?id=com.digitalworld.iotech">
-            <img src="/images/Google_play_store.png" width="160">
-        </a></p> 
+<div class="container-fluid px-0" style="margin-top: -3rem!important">
+    <div style="background-color: #eaeff5;" class="mb-5" >
+        <div class="px-0 w-75 mx-auto  pt-5" style="background-image: url(/images/header-image-learning.jpg);background-repeat: no-repeat;background-size: contain;height: 300px;background-position: center center;">
+            <h1>Welcome, {{ Auth::user()->name }}</h1>
+        </div>
+    </div>
+    <div class="container">
+
     </div>
 </div>
 @endsection

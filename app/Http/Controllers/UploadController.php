@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use Chumper\Zipper\Zipper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\Storage;
-use Auth;
 
 class UploadController extends Controller
 {
 
     protected $fieldUpload = ['id', 'title', 'description', 'cover_file', 'author', 'user_id', 'isPublic', 'fileUrl', 'group_id', 'cat_id', 'view', 'sub_cat', 'grade'];
     protected $fieldGroup = ['group_id', 'book_id'];
-
 
     /**
      * Create a new controller instance.
@@ -22,7 +20,7 @@ class UploadController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'verified']);
     }
 
     /**
@@ -38,76 +36,81 @@ class UploadController extends Controller
         return view('upload')->with('category', $getCat)->with('sub', $sub)->with('grade', $grade);
     }
 
-    public function getCategoryList() 
+    public function getCategoryList()
     {
-        return DB::table('categories')->select('cat_id','title','parent_id')->get();
+        return DB::table('categories')->select('cat_id', 'title', 'parent_id')->get();
     }
 
-    public function getSubcat() 
+    public function getSubcat()
     {
-        return DB::table('subcat')->select('id','title')->get();
+        return DB::table('subcat')->select('id', 'title')->get();
     }
 
-    public function getGrade() 
+    public function getGrade()
     {
-        return DB::table('grade')->select('grade_id as id','title')->get();
+        return DB::table('grade')->select('grade_id as id', 'title')->get();
     }
     // Upload handle.
     // @return Respose
-    public function bookCreate(Request $request) {
-      
-      $file = $request->file('bookfile')->store($this->getNextBookInsertID(),'book');
+    public function bookCreate(Request $request)
+    {
 
-      $fullpath = env('API_FILE_DIR') . '/book/';
-      $extract_dir = $fullpath . $this->getNextBookInsertID();
-      chmod($fullpath . $this->getNextBookInsertID(), 0777);
-      //Extract files
-      $zipper = new \Chumper\Zipper\Zipper;
-      $zipper->make( $fullpath . $file )->folder('')->extractTo( $extract_dir );
-      unlink($fullpath . $file);
-      $zipper->close();
-      if(!isset($request->isPublic) )
-      {
-        $request->isPublic = 0;
-      }
+        $file = $request->file('bookfile')->store($this->getNextBookInsertID(), 'book');
 
-      
-      $userid = ( $request->userid == '' ) ? Auth::user()->id : $request->userid;
-      $group = ( $request->group == '' ) ? 0 : $request->group;
+        $fullpath = env('API_FILE_DIR') . '/book/';
+        $extract_dir = $fullpath . $this->getNextBookInsertID();
+        chmod($fullpath . $this->getNextBookInsertID(), 0777);
+        //Extract files
 
-      $mainfile = $this->getNextBookInsertID() . '/index.html';
-      $coverfile = $this->getNextBookInsertID() . '/files/thumb/1.jpg';
-      $bookdata = array_combine( $this->fieldUpload, [ $this->getNextBookInsertID(), $request->filename, $request->description, $coverfile, $request->author, $userid, $request->isPublic, $mainfile, $group, $request->category, 0, $request->sub, $request->grade ] );
-      $groupdata = array_combine( $this->fieldGroup, [ $group, $this->getNextBookInsertID() ] );
+        $zipper = new Zipper;
 
-      $createbook = $this->insertBook( $bookdata );
-      $this->insertBookGroup( $groupdata );
+        $zipper->make($fullpath . $file)->folder('')->extractTo($extract_dir);
 
-      if($createbook != '') {
-        return back()->with('status','บันทึกเรียบร้อยแล้ว');
-      } else {
-          return back()->withInput($request->input())->with('status','บันทึกไม่สำเร็จ');
-      }
+        unlink($fullpath . $file);
+        $zipper->close();
+        if (!isset($request->isPublic)) {
+            $request->isPublic = 0;
+        }
 
-      
-   }
+        $userid = ($request->userid == '') ? Auth::user()->id : $request->userid;
+        $group = ($request->group == '') ? 0 : $request->group;
 
-   public function insertBook( $data ) {
+        $mainfile = $this->getNextBookInsertID() . '/index.html';
+        $coverfile = $this->getNextBookInsertID() . '/files/thumb/1.jpg';
+        $bookdata = array_combine($this->fieldUpload, [$this->getNextBookInsertID(), $request->filename, $request->description, $coverfile, $request->author, $userid, $request->isPublic, $mainfile, $group, $request->category, 0, $request->sub, $request->grade]);
+        $groupdata = array_combine($this->fieldGroup, [$group, $this->getNextBookInsertID()]);
 
-       return DB::table(env('BOOK_TABLE'))->insertGetId( $data );
-   }
+        $createbook = $this->insertBook($bookdata);
+        $this->insertBookGroup($groupdata);
 
-   public function insertBookGroup( $data ) {
+        if ($createbook != '') {
+            return back()->with('status', 'บันทึกเรียบร้อยแล้ว');
+        } else {
+            return back()->withInput($request->input())->with('status', 'บันทึกไม่สำเร็จ');
+        }
 
-       return DB::table(env('BOOKGROUP_TABLE'))->insert( $data );
-   }
+    }
 
-   public function getLastBookID() {
-       $last = DB::select('SELECT MAX(id) as last FROM '. env('BOOK_TABLE'));
-       return $last[0]->last;
-   }
+    public function insertBook($data)
+    {
 
-   public function getNextBookInsertID() {
-       return $this->getLastBookID()+1;
-   }
+        return DB::table(env('BOOK_TABLE'))->insertGetId($data);
+    }
+
+    public function insertBookGroup($data)
+    {
+
+        return DB::table(env('BOOKGROUP_TABLE'))->insert($data);
+    }
+
+    public function getLastBookID()
+    {
+        $last = DB::select('SELECT MAX(id) as last FROM ' . env('BOOK_TABLE'));
+        return $last[0]->last;
+    }
+
+    public function getNextBookInsertID()
+    {
+        return $this->getLastBookID() + 1;
+    }
 }

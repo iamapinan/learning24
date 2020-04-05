@@ -9,20 +9,28 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'WelcomeController@index')->name('welcome');
+Route::get('/view/{id}', 'ViewController@index')->name('view');
+
+Auth::routes(['verify' => true]);
+Route::get('/upload', 'UploadController@index')->middleware('verified')->name('upload');
+Route::get('/home', 'HomeController@index')->middleware('verified')->name('home');
+Route::get('/report', 'HomeController@index')->middleware('verified')->name('report');
+Route::get('/banner', 'bannerController@index')->middleware('verified')->name('banner');
+Route::get('/users', 'UserController@index')->middleware('verified')->name('users');
+Route::get('/book', 'bookController@index')->middleware('verified')->name('book');
+Route::get('/list', 'bookController@index')->middleware('verified')->name('list');
+Route::get('/books', 'bookController@index')->middleware('verified')->name('books');
+Route::get('/profile', 'bookController@index')->middleware('verified')->name('profile');
+Route::get('/search', 'bookController@search')->middleware('verified')->name('search');
+
+Route::prefix('login')->group(function () {
+    Route::get('/{provider}', 'Auth\LoginController@redirectToProvider')->name('login.provider');
+    Route::get('/{provider}/callback', 'Auth\LoginController@handleProviderCallback')->name('login.provider.callback');
 });
-Auth::routes();
 
-Route::get('/upload', 'UploadController@index')->name('upload');
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/banner', 'bannerController@index')->name('banner');
-Route::get('/user', 'UserController@index')->name('user');
-Route::get('/book', 'bookController@index')->name('book');
 // Post request
-Route::post('/upload', 'UploadController@bookCreate');
-Route::get('/test', function(){
-    return view('test');
-});
+Route::post('/upload', 'UploadController@bookCreate')->middleware('verified')->name('handleUpload');
+
