@@ -55,7 +55,14 @@ class UploadController extends Controller
     // @return Respose
     public function upload(Request $request)
     {
-        $lastBookID = $this->getNextBookInsertID();
+        if ($_FILES["bookfile"]["error"] > 0)
+       {
+          var_dump($_FILES["bookfile"]["error"]);
+          return;
+       }
+
+	$lastBookID = $this->getNextBookInsertID();
+	
         $file = $request->file('bookfile')->store($lastBookID, 'book');
         $fullpath = Storage::disk('book')->path('/');
         $extract_dir = $fullpath . $lastBookID;
