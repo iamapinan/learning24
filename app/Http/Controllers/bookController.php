@@ -23,7 +23,8 @@ class bookController extends Controller
         'sub_cat', 
         'grade', 
         'subject', 
-        'gradetitle'
+        'gradetitle',
+        'link_test'
     ];
 
     public function __construct()
@@ -35,12 +36,21 @@ class bookController extends Controller
 
         $books = DB::table('all_book_data')
         ->select($this->fields)
-        ->where('cat_id', '<>', '10')
-        ->where('type_book', '<>', '1')
         ->where('user_id', Auth::id())
         ->orderBy('id', 'DESC')
         ->paginate(20);
        
         return view('book')->with('books', $books);
+    }
+
+    public function shelf(Request $request){
+
+        $books = DB::table('all_book_data')
+        ->select($this->fields)
+        ->where('user_id', $request->id)
+        ->orderBy('id', 'DESC')
+        ->paginate(20);
+       
+        return view('list')->with('list', $books);
     }
 }

@@ -189,6 +189,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        'ChrisKonnertz\OpenGraph\OpenGraphServiceProvider',
 
     ],
 
@@ -241,6 +242,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Zipper' => Chumper\Zipper\Zipper::class,
+        'OpenGraph' => 'ChrisKonnertz\OpenGraph\OpenGraphFacade',
     ],
 
 ];

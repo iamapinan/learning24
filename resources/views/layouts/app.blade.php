@@ -7,7 +7,9 @@
 
     <link rel="shortcut icon" type="image/png" href="/images/icon.png"/>
     <link rel="shortcut icon" type="image/png" href="/images/icon.png"/>
-
+    @if(isset($og))
+    {!! $og->renderTags() !!}
+    @endif
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -18,7 +20,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
-    <link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/font-awesome/css/all.css" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark mb-5">
@@ -34,15 +36,16 @@
         <ul class="navbar-nav mr-auto">
         @if(!Auth::guest() && Auth::user()->admin == 0)
             <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="fa fa-home" aria-hidden="true"></i> หน้าแรก</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('book') }}"><i class="fa fa-book" aria-hidden="true"></i> หนังสือของฉัน</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('list') }}"><img src="/images/books-icon.png" aria-hidden="true"> ชั้นหนังสือ</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('book') }}"><i class="fa fa-book" aria-hidden="true"></i> จัดการหนังสือ</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('shelf', Auth::user()->id) }}"><img src="/images/books-icon.png" aria-hidden="true"> ชั้นหนังสือ</a></li>
+            <li class="nav-item"><a class="nav-link disabled" aria-disabled="true" href="#"><i class="fas fa-chart-pie" aria-hidden="true"></i> สถิติ</a></li>
         @endif
         <!-- for Admin -->
         @if(!Auth::guest() && Auth::user()->admin == 1)
-            <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="fa fa-home" aria-hidden="true"></i> หน้าแรก</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('report') }}"><i class="fa fa-users" aria-hidden="true"></i> สถิติ</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('books') }}"><i class="fa fa-book" aria-hidden="true"></i> หนังสือทั้งหมด</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('banner') }}"><i class="fa fa-image" aria-hidden="true"></i> แบนเนอร์</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="fab fa-home" aria-hidden="true"></i> หน้าแรก</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('report') }}"><i class="fab fa-users" aria-hidden="true"></i> สถิติ</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('books') }}"><i class="fab fa-book" aria-hidden="true"></i> หนังสือทั้งหมด</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('banner') }}"><i class="fab fa-image" aria-hidden="true"></i> แบนเนอร์</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('users') }}"><i class="fa fa-user" aria-hidden="true"></i> สมาชิก</a></li>
         @endif
         </ul>
@@ -57,18 +60,18 @@
                 <li class="nav-item"><a class="nav-link text-danger"><i class="fa fa-warning" aria-hidden="true"></i> กรุณายืนยันอีเมล์</a></li>
             @endif
             <li class="nav-item"><a class="nav-link text-warning" href="https://fliphtml5.com/login.php" class="nav-link"><i class="fa fa-book"></i> สร้างหนังสือใหม่</a></li>
-            <li class="nav-item"><a class="nav-link text-info" href="{{ route('upload') }}"><i class="fa fa-cloud-upload" aria-hidden="true"></i> อัพโหลด</a></li>
+            <li class="nav-item"><a class="nav-link text-info" href="{{ route('upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> อัพโหลด</a></li>
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" id="userNavmenu" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                     {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="userNavmenu">
-                    <a class="dropdown-item" href="{{ route('profile') }}"><i class="fa fa-gear"></i> ตั้งค่าโปรไฟล์</a>
+                    <a class="dropdown-item disabled" aria-disabled="true" href="{{ route('profile') }}"><i class="fas fa-user-cog"></i> ตั้งค่าโปรไฟล์</a>
                     @if(Auth::user()->email_verified == 0)
                         <a class="dropdown-item" href="{{ route('verification.resend') }}"><i class="fa fa-warning text-primary"></i> ส่งอีเมล์ยืนยันอีกครั้ง</a>
                     @endif
                     <a class="dropdown-item" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                       <i class="fa fa-sign-out"></i> Logout
+                       <i class="fas fa-sign-out-alt"></i> Logout
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}

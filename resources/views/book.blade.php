@@ -3,39 +3,41 @@
 @section('content')
 
 <div class="container">
-    <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{route('home')}}">หน้าแรก</a></li>
-        <li class="breadcrumb-item active" aria-current="page">จัดการหนังสือ</li>
-    </ol>
-    </nav>
     <div class="row">
         <div class="col-md-12">
                 <div class="mb-5" style="background-image: url(/images/header-image-store.jpg);background-repeat: no-repeat;background-size: contain;height: 300px">
                     <h3 class="pl-5 text-lg-left pt-4">จัดการหนังสือ</h3>
                 </div>
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{route('home')}}">หน้าแรก</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">จัดการหนังสือ</li>
+                </ol>
+                </nav>
+
                  <!-- Default panel contents -->
                 
-                <div class="mt-3">
+                <div class="row mt-5">
                     @foreach($books as $b)
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card shadow rounded">
-                                <img src="{{url('storage/book/'.str_replace('large','thumb', $b->cover_file) ) }}" alt="{{$b->title}}" style="height: 190px;object-fit: contain;" class="card-img-top overflow-hidden">
-
+                                <a href="view/{{$b->id}}">
+                                    <img src="{{url('storage/book/'.str_replace('thumb','large', $b->cover_file) ) }}" alt="{{$b->title}}" style="height: 190px;object-fit: contain;" class="card-img-top overflow-hidden">
+                                </a>
                                 <div class="card-body">
-                                    <h3 class="card-title">{{$b->title}}</h3>
+                                    <p class="text-bold mb-1"><a href="view/{{$b->id}}">{{$b->title}}</a></p>
                                     <div class="card-text">
-                                        <p class="my-3">{{$b->description}}</p>
-                                        <ul class="text-muted">
-                                            <li><i class="fa fa-graduation-cap"></i> {{$b->gradetitle}} </li>
-                                            <li><i class="fa fa-folder"></i> {{$b->subject}} </li>
-                                            <li><i class="fa fa-bar-chart"></i> {{$b->view}} </li>
+                                        <p class="mb-3 text-secondary">{{$b->description}}</p>
+                                        <ul class="list-group">
+                                            <li class="list-group-item"><i class="fa fa-graduation-cap"></i> {{$b->gradetitle}} </li>
+                                            <li class="list-group-item "><i class="fa fa-folder"></i> {{$b->subject}} </li>
+                                            <li class="list-group-item"><i class="fa fa-chart-pie"></i> {{$b->view}} </li>
                                         </ul>
-                                        <a href="#" class="card-link"><i class="fa fa-pencil"></i> Edit</a> 
-                                        @if(!Auth::guest() && Auth::user()->admin == 1)
-                                        <a href="#" @click="rmb({{ $b->id }})"  class="card-link"><i class="fa fa-trash"></i> ลบรายการนี้</a>
-                                        @endif
-                                        <a href="{{url('/view/'.$b->id)}}" target="_blank"  class="card-link"><i class="fa fa-external-link"></i> View</a>
+                                        <ul class="list-group list-group-flush mt-3">
+                                            <li class="list-group-item"><a href="#" class="disabled text-muted" aria-disabled="true"><i class="fas fa-pen"></i> แก้ไข <span class="text-danger">ยังไม่รองรับ</span></a> </li>
+                                            <li class="list-group-item"><a href="/recommend/{{$b->id}}"  class="card-link"><i class="fas fa-star"></i> ตั้งเป็นแนะนำ</a></li>
+                                            <li class="list-group-item"><a href="#" @click="rmb({{ $b->id }})"  class="card-link text-danger"><i class="fas fa-trash"></i> ลบ</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

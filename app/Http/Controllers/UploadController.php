@@ -6,11 +6,12 @@ use Auth;
 use Chumper\Zipper\Zipper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
 {
 
-    protected $fieldUpload = ['id', 'title', 'description', 'cover_file', 'author', 'user_id', 'isPublic', 'fileUrl', 'group_id', 'cat_id', 'view', 'sub_cat', 'grade'];
+    protected $fieldUpload = ['id', 'title', 'description', 'agreement', 'cover_file', 'author', 'user_id', 'isPublic', 'fileUrl', 'group_id', 'cat_id', 'view', 'sub_cat', 'grade','link_test'];
     protected $fieldGroup = ['group_id', 'book_id'];
 
     /**
@@ -52,14 +53,13 @@ class UploadController extends Controller
     }
     // Upload handle.
     // @return Respose
-    public function bookCreate(Request $request)
+    public function upload(Request $request)
     {
-
-        $file = $request->file('bookfile')->store($this->getNextBookInsertID(), 'book');
-
-        $fullpath = env('API_FILE_DIR') . '/book/';
-        $extract_dir = $fullpath . $this->getNextBookInsertID();
-        chmod($fullpath . $this->getNextBookInsertID(), 0777);
+        $lastBookID = $this->getNextBookInsertID();
+        $file = $request->file('bookfile')->store($lastBookID, 'book');
+        $fullpath = Storage::disk('book')->path('/');
+        $extract_dir = $fullpath . $lastBookID;
+        chmod($fullpath . $lastBookID, 0777);
         //Extract files
 
         $zipper = new Zipper;
@@ -75,11 +75,28 @@ class UploadController extends Controller
         $userid = ($request->userid == '') ? Auth::user()->id : $request->userid;
         $group = ($request->group == '') ? 0 : $request->group;
 
-        $mainfile = $this->getNextBookInsertID() . '/index.html';
-        $coverfile = $this->getNextBookInsertID() . '/files/thumb/1.jpg';
-        $bookdata = array_combine($this->fieldUpload, [$this->getNextBookInsertID(), $request->filename, $request->description, $coverfile, $request->author, $userid, $request->isPublic, $mainfile, $group, $request->category, 0, $request->sub, $request->grade]);
-        $groupdata = array_combine($this->fieldGroup, [$group, $this->getNextBookInsertID()]);
+        $mainfile = $lastBookID . '/index.html';
+        $coverfile = $lastBookID . '/files/large/1.jpg';
+        $link_test = $request->attachment;
 
+        $bookdata = array_combine($this->fieldUpload, [
+            $lastBookID, 
+            $request->filename, 
+            $request->description, 
+            1, 
+            $coverfile, 
+            $request->author, 
+            $userid, 
+            $request->isPublic, 
+            $mainfile, $group, 
+            $request->category, 
+            0, 
+            $request->sub, 
+            $request->grade, 
+            $link_test]);
+        $groupdata = array_combine($this->fieldGroup, [$group, $lastBookID]);
+        // print_r($bookdata);
+        // exit;
         $createbook = $this->insertBook($bookdata);
         $this->insertBookGroup($groupdata);
 
@@ -94,18 +111,18 @@ class UploadController extends Controller
     public function insertBook($data)
     {
 
-        return DB::table(env('BOOK_TABLE'))->insertGetId($data);
+        return DB::table('book')->insertGetId($data);
     }
 
     public function insertBookGroup($data)
     {
 
-        return DB::table(env('BOOKGROUP_TABLE'))->insert($data);
+        return DB::table('book_group')->insert($data);
     }
 
     public function getLastBookID()
     {
-        $last = DB::select('SELECT MAX(id) as last FROM ' . env('BOOK_TABLE'));
+        $last = DB::select('SELECT MAX(id) as last FROM book');
         return $last[0]->last;
     }
 

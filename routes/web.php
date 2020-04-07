@@ -21,7 +21,7 @@ Route::get('/report', 'HomeController@index')->middleware('verified')->name('rep
 Route::get('/banner', 'bannerController@index')->middleware('verified')->name('banner');
 Route::get('/users', 'UserController@index')->middleware('verified')->name('users');
 Route::get('/book', 'bookController@index')->middleware('verified')->name('book');
-Route::get('/list', 'bookController@index')->middleware('verified')->name('list');
+Route::get('/shelf/{id}', 'ShelfController@index')->name('shelf');
 Route::get('/books', 'bookController@index')->middleware('verified')->name('books');
 Route::get('/profile', 'bookController@index')->middleware('verified')->name('profile');
 Route::get('/search', 'bookController@search')->middleware('verified')->name('search');
@@ -32,5 +32,5 @@ Route::prefix('login')->group(function () {
 });
 
 // Post request
-Route::post('/upload', 'UploadController@bookCreate')->middleware('verified')->name('handleUpload');
+Route::post('/upload', 'UploadController@upload')->middleware('verified')->name('handleUpload');
 

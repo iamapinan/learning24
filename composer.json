@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "chriskonnertz/open-graph": "^2.0",
         "chumper/zipper": "1.0.x",
         "coconutcraig/laravel-postmark": "^2.8",
         "fideloper/proxy": "^4.3",
