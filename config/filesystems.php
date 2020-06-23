@@ -53,7 +53,18 @@ return [
             'url' => env('APP_URL').'/storage/book',
             'visibility' => 'public',
         ],
-
+        'banner' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/banner'),
+            'url' => env('APP_URL').'/storage/banner',
+            'visibility' => 'public',
+        ],
+        'users' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/users'),
+            'url' => env('APP_URL').'/storage/users',
+            'visibility' => 'public',
+        ],
         'book2' => [
             'driver' => 'local',
             'root' => env('API_FILE_DIR').'/book',

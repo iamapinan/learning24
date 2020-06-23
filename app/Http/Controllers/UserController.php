@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,10 +23,28 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = DB::table('users')->select()->orderBy('id', 'DESC')->paginate(20);
+        if($request->s !== '')
+            $data = DB::table('users')->where('role_id', 2)->where('name', 'like', '%' . $request->s . '%')->select()->orderBy('id', 'DESC')->paginate(20);
+        else
+            $data = DB::table('users')->where('role_id', 2)->select()->orderBy('id', 'DESC')->paginate(20);
+
         return view('UserManager')->with('users', $data);
+    }
+
+    public function profile() {
+        $data = DB::table('users')->where('id', Auth::user()->id )->select()->get();
+        return view('profile')->with('profile', $data[0]);
+    }
+
+    public function update(Request $request, $id) {
+        DB::table('users')->where('id', $id )
+          ->update([
+              'name' => $request->input('fullname' ), 
+              'organization' => $request->input( 'organization' ) 
+            ]);
+        return back()->with('status', 'บันทึกเรียบร้อยแล้ว');
     }
     
 }

@@ -6,14 +6,16 @@
         <div class="col-md-8 mx-auto">
             <h1>Reset password</h1>
             <div class="row">
-                @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
-                    </div>
-                @endif
+                
 
                 <form class="form-horizontal col-md-12 mt-3 mb-3 p-5 border shadow" method="POST" action="{{ route('password.email') }}">
                     {{ csrf_field() }}
+                    
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
                     @if ($errors->has('confirmation') > 0 )
                         <div class="alert alert-danger" role="alert">
                             {!! $errors->first('confirmation') !!}

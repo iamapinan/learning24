@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Socialite;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Socialite;
+use App\User;
+use App\SocialAccount;
+use Illuminate\Support\Facades\Storage;
 
 class LoginController extends Controller
 {
@@ -47,12 +51,11 @@ class LoginController extends Controller
     }
 
     public function handleProviderCallback($provider = 'facebook')
-    {
-        $providerUser = Socialite::driver($provider)->user();
-            
+    {  
+        $providerUser = \Socialite::driver($provider)->user();
         $user = $this->createOrGetUser($provider, $providerUser);
-        auth()->login($user);
 
+        auth()->login($user);
         return redirect()->to('/home');
     }
 
@@ -89,9 +92,8 @@ class LoginController extends Controller
             if (!$user) {
                 /** Get Avatar */
                 $image = $provider . "_" . $providerUser->getId() . ".png";
-                $imagePath = public_path(config('app.media.directory') . "users/avatar/" . $image);
+                $imagePath = Storage::disk('users')->path('avatar/')  . $image;
                 file_put_contents($imagePath, file_get_contents($providerUser->getAvatar()));
-
 
                 /** Create User */
                 $user = User::create([
@@ -102,6 +104,8 @@ class LoginController extends Controller
                     'password' => bcrypt(rand(1000, 9999)),
                     'organization' => '',
                     'birthday' => '',
+                    'email_verification_token' => '',
+                    'email_verified' => 1,
                     'email_verified_at' => now()
                 ]);
 

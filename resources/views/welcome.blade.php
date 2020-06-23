@@ -9,18 +9,16 @@
         <link rel="shortcut icon" type="image/png" href="/images/icon.png"/>
         <link rel="shortcut icon" type="image/png" href="/images/icon.png"/>
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Sarabun:100,600" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Sarabun:400,700" rel="stylesheet" type="text/css">
         <link href="/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
-        <link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/css/font-awesome/css/all.css" rel="stylesheet">
         <!-- Styles -->
         <style>
             html, body {
                 background: url('storage/welcome.jpg') no-repeat;
-                background-size: cover;
                 color: #ffffff;
                 font-family: 'Sarabun', sans-serif;
                 font-weight: 100;
-                height: 100vh;
                 margin: 0;
             }
             .full-height {
@@ -30,7 +28,7 @@
                 width: 100%;
             }
             .title {
-                font-size: 84px;
+                font-size: 64px;
             }
             .subtitle {
                 display: block;
@@ -72,12 +70,10 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     @if (Auth::guest())
-                    <li class="nav-item"><a class="nav-link text-warning btn btn-link px-3" href="https://fliphtml5.com/login.php" class="nav-link"><i class="fa fa-book"></i> สร้างหนังสือใหม่</a></li>
                     <li class="nav-item"><a class="nav-link text-primary" href="{{ route('register') }}"><span class="fa fa-user-plus"></span> Register</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}"><span class="fa fa-sign-in"></span> Login</a></li>
                     @else
                     <li class="nav-item"><a href="{{ url('/home') }}" class="nav-link">แดชบอร์ด</a></li>
-                    <li class="nav-item"><a class="nav-link text-warning" href="https://fliphtml5.com/login.php" class="nav-link"><i class="fa fa-book"></i> สร้างหนังสือใหม่</a></li>
                     <li class="nav-item"><a class="nav-link text-info" href="{{ route('upload') }}"><i class="fa fa-cloud-upload" aria-hidden="true"></i> อัพโหลด</a></li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" id="userNavmenu" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -102,34 +98,34 @@
         </nav>
         <div class="flex-center position-ref full-height">
             <div class="content">
-                <div class="row d-flex flex-row">
-                    <div class="col text-right col-md-4">
+                <div class="d-flex flex-row px-3">
+                    <div class="text-right d-sm-none d-none d-md-block d-lg-block offset-md-2">
                         <img src="images/personal-ebook.png" alt="Learning 21 - Your personal ebook platform">
                     </div>
-                    <div class="col flex-column col-md-5 offset-md-1">
+                    <div class="flex-column">
                         <div class="title my-5">
                             Learning 21
                         </div>
                         <div class="subtitle my-3">
-                            อัพโหลดและจัดาการเนื้อหาอีบุ๊คของคุณเอง หรือจะสร้างหนังสือของตัวเองก็ได้ <span class="badge badge-danger">ลงทะเบียนเลยตอนนี้ ฟรี</span>
+                            อัพโหลดและจัดาการเนื้อหาอีบุ๊คของคุณเอง หรือจะสร้างหนังสือของตัวเองก็ได้
                         </div>
                         <div class="text-left my-5">
-                            <a href="{{ url('/register') }}" class="btn btn-dark text-white btn-lg">สมัครสมาชิกใหม่</a>
-                            <a href="{{ url('/login') }}" class="btn btn-link btn-lg text-white">เข้าสู่ระบบ</a>
+                            <a href="{{ url('/register') }}" class="btn btn-primary text-white btn-lg">สมัครสมาชิกใหม่</a>
+                            <a href="{{ url('/login') }}" class="btn btn-info btn-lg text-white">เข้าสู่ระบบ</a>
                         </div>
                     </div>
                 </div>
-                <div class="bottom-info bg-black-opaciy py-5 mt-5">
-                    <h3 class="text-white mb-5 mt-1">สนับสนุนโดย</h3>
-                    <div class="flex-row d-flex justify-content-around w-75 mx-auto mb-3">
-                        <div class="col"><a href="https://digitalworld2u.com"><img src="images/digitalworld.png" alt="Digital World association" class="partner_logo"></a></div>
-                        <div class="col"><a href="https://iotech.co.th"><img src="images/iotech.png" alt="iOTech Enterprise"  class="partner_logo h-auto"></a></div>
-                        <div class="col"><a href="https://pasee2u.com"><img src="images/pasee_group.png" alt="Pasee Group"  class="partner_logo"></a></div>
-                        <div class="col"><a href="https://อบรมครู.com"><img src="images/obbromkru.png" alt="อบรมครู"  class="partner_logo"></a></div>
+                <div class="bottom-info bg-black-opaciy py-5 mt-5 mx-0">
+                    <h3 class="text-white mb-3 mt-1">สนับสนุนโดย</h3>
+                    <div class="row mx-0">
+                        <div class="col my-3"><a href="https://digitalworld2u.com"><img src="images/digitalworld.png" alt="Digital World association" class="partner_logo"></a></div>
+                        <div class="col my-3"><a href="https://iotech.co.th"><img src="images/iotech.png" alt="iOTech Enterprise"  class="partner_logo h-auto"></a></div>
+                        <div class="col my-3"><a href="https://pasee2u.com"><img src="images/pasee_group.png" alt="Pasee Group"  class="partner_logo"></a></div>
+                        <div class="col my-3"><a href="https://อบรมครู.com"><img src="images/obbromkru.png" alt="อบรมครู"  class="partner_logo"></a></div>
                     </div>
                 </div>
                 <div class="footer my-5">
-                    <p class="text-center text-white">โครงการสนับสนุนการเรียนรู้ ของเด็กไทย โดย สมาคมดิจิทัลเวิลด์</p>
+                    <p class="text-center text-white">โครงการสนับสนุนการเรียนรู้ ของเด็กไทย <br>โดย สมาคมดิจิทัลเวิลด์</p>
                     <p class="text-center text-white">พัฒนาโดย บริษัท ไอโคเทค เอ็นเตอร์ไพรส์ จำกัด</p>
                 </div>
             </div>

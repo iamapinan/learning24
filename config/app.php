@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://learning21.in.th'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -153,6 +153,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        Laravel\Socialite\SocialiteServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -242,6 +243,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Zipper' => Chumper\Zipper\Zipper::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'OpenGraph' => 'ChrisKonnertz\OpenGraph\OpenGraphFacade',
     ],
 

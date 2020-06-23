@@ -18,13 +18,14 @@
                             {!! $errors->first('confirmation') !!}
                         </div>
                     @endif
-                    <div class="form-group">
+                   
+		            <div class="form-group">
                         <div class="col-md-6 offset-md-4">
                             <a href="/login/facebook" class="btn btn-primary btn-outline-primary btn-block text-white">Login with Facebook</a>
                         </div>
-                        <div class="col-md-6 offset-md-4 mt-2">
+                        <!-- <div class="col-md-6 offset-md-4 mt-2">
                             <a href="/login/google" class="btn btn-danger btn-outline-danger btn-block text-white">Login with Google</a>
-                        </div>
+                        </div> -->
                         <div class="col-md-6 offset-md-4 mt-3">หรือ</div>
                     </div>
                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">

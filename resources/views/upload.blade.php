@@ -15,16 +15,39 @@
                 </div>
                 @endif
 
+                @if (Auth::user()->email_verified == 0)
+                    <div class="alert alert-warning">
+                        <strong>ขออภัย</strong> กรุณายืนยันดีเมล์ของคุณก่อน เราได้ส่งอีเมล์ยืนยันตัวตนไปแล้ว หากคุณยังไม่ได้รับ <br>กรุณา
+                        <a href="{{route('verification.resend')}}" class="btn-link">ส่งอีเมล์ยืนยันตัวตนอีกครั้ง</a> หรือตรวจสอบใน Junk mail อีกครั้ง
+                    </div>
+                @else
                     <form action="{{route('handleUpload')}}" method="POST" role="form"  enctype="multipart/form-data">
                         <div class="p-3 bg-light rounded my-3">
                             <div class="form-group my-4">
+                                <label for="type_book">ประเภทไฟล์</label>
+                                <select id="type_book" class="form-control" name="type_book" required>
+                                    <option value="">กรุณา เลือกประเภทไฟล์ ก่อน</option>
+                                    <option value="0">HTML5 E-Book</option>
+                                    <option value="1">PDF</option>
+                                </select>
+                            </div>
+                            <div class="form-group my-4 d-none" id="html5_file">
                                 <label for="bookfile">ไฟล์หนังสือ *</label>
-                                <input type="file" id="bookfile" name="bookfile" accept="application/zip" required @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length">
-                                <p class="text-warning">กรุณาเลือกไฟล์ zip เท่านั้นและจำกัดไม่เกิน 20mb ที่ดาวน์โหลดจาก fliphtml5</p>
+                                <input type="file" id="bookfile" name="bookfile" accept="application/zip">
+                                <p class="text-danger">กรุณาเลือกไฟล์ zip เท่านั้นและจำกัดไม่เกิน 20mb ที่ดาวน์โหลดจาก fliphtml5</p>
+                            </div>
+                            <div class="form-group my-4 d-none" id="pdf_file">
+                                <label for="bookfile">ไฟล์หนังสือ *</label>
+                                <input type="file" id="pdf_bookfile" name="pdf_bookfile" accept="application/pdf">
+                                <p class="text-danger">กรุณาเลือกไฟล์ pdf เท่านั้นและจำกัดไม่เกิน 20mb</p>
                             </div>
                             <div class="form-group">
-                                <label for="attachment">ข้อสอบ/แบบฝึกหัด <span class="text-muted">ไม่บังคับ</span></label>
-                                <input type="text" class="form-control" id="attachment" name="attachment" value="{{ old('attachment') }}" placeholder="url ข้อสอบ/แบบฝึกหัดจาก Google form" required>
+                                <label for="before_attachment">ข้อสอบก่อนเรียน <span class="text-muted">ไม่บังคับ</span></label>
+                                <input type="url" class="form-control" id="attachment" name="before_attachment" value="{{ old('before_attachment') }}" placeholder="url ข้อสอบ/แบบฝึกหัดจาก Google form ไม่ต้องย่อ">
+                            </div>
+                            <div class="form-group">
+                                <label for="attachment">ข้อสอบหลังเรียน <span class="text-muted">ไม่บังคับ</span></label>
+                                <input type="url" class="form-control" id="attachment" name="attachment" value="{{ old('attachment') }}" placeholder="url ข้อสอบ/แบบฝึกหัดจาก Google form ไม่ต้องย่อ">
                             </div>
                         </div>
                         <div class="form-group">
@@ -34,7 +57,7 @@
                         
                         <div class="form-group">
                             <label for="author">ชื่อผู้เขียน *</label>
-                            <input type="text" class="form-control" id="author" name="author" value="{{ old('author') }}" placeholder="Author name" required>
+                            <input type="text" class="form-control" id="author" name="author" value="{{ old('author') ?? Auth::user()->name }}" placeholder="Author name" required>
                         </div>
                         <div class="form-group">
                             <label for="description">รายละเอียด *</label>
@@ -93,7 +116,25 @@
                         </button>
                         <a href="{{route('home')}}" class="btn btn-default" role="button">ยกเลิก</a>
                     </form>
+                @endif
 
+                <script>
+                    $('#type_book').on('change', function () {
+                        console.log($(this).val())
+                        if($(this).val() == '') {
+                            alert('กรุณาเลือก PDF หรือ E-Book');
+                        }
+                        if($(this).val() == 0) {
+                            $("#html5_file").removeClass('d-none').addClass('d-block').find('input').attr('required', true)
+                            $("#pdf_file").removeClass('d-block').addClass('d-none').find('input').attr('required', false)
+                        }
+                        if($(this).val() == 1) {
+                            $("#pdf_file").removeClass('d-none').addClass('d-block').find('input').attr('required', true)
+                            $("#html5_file").removeClass('d-block').addClass('d-none').find('input').attr('required', false)
+                        }
+
+                    })
+                </script>
          
         </div>
     </div>

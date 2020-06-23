@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'file'),
+    'driver' => env('SESSION_DRIVER', 'redis'),
 
     /*
     |--------------------------------------------------------------------------
@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => 'laravel_session',
+    'cookie' => 'learning21_session',
 
     /*
     |--------------------------------------------------------------------------
@@ -148,7 +148,8 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', null),
+    'domain' => env('SESSION_DOMAIN', 'learning21.in.th'),
+    // 'domain' => 'learning21.iotech.co.th',
 
     /*
     |--------------------------------------------------------------------------

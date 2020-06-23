@@ -25,7 +25,9 @@ class ViewController extends Controller
         'sub_cat', 
         'grade', 
         'subject', 
+        'type_book',
         'gradetitle',
+        'link_pretest',
         'link_test'
     ];
 
@@ -34,6 +36,13 @@ class ViewController extends Controller
         $content = DB::table('all_book_data')
         ->select($this->fields)
         ->where('id', $request->id)->get();
+
+        $user = DB::table('users')->where('id', $content[0]->user_id)->first();
+
+        if(count($content)==0) {
+            return redirect('/404');
+        }
+
         $title =  $content[0]->title.' - '. config('app.name');
         $ogp = new OpenGraph;
         $og = $ogp->title($content[0]->title)
@@ -42,6 +51,15 @@ class ViewController extends Controller
         ->description($content[0]->description)
         ->url();
 
-        return view('view', ['content' => $content], compact('title', 'og'));
+        DB::table('book')
+        ->where('id', $request->id)
+        ->update(['view'=>($content[0]->view+1)]);
+
+        if(!Auth::guest()) {
+            DB::table('view_history')
+            ->insert(['content_id'=>$request->id, 'user'=>Auth::user()->id]);
+        }
+
+        return view('view', ['content' => $content, 'user_info' => $user], compact('title', 'og'));
     }
 }

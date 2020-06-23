@@ -7,6 +7,7 @@
 
     <link rel="shortcut icon" type="image/png" href="/images/icon.png"/>
     <link rel="shortcut icon" type="image/png" href="/images/icon.png"/>
+    <meta property="fb:app_id" content="222301579012442" />
     @if(isset($og))
     {!! $og->renderTags() !!}
     @endif
@@ -17,13 +18,14 @@
     <!-- Script -->
     <script src="/js/jquery-3.4.1.slim.min.js"></script>
     <script src="/css/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous"></script>
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css').'?v='.filemtime('css/app.css') }}" rel="stylesheet">
     <link href="/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
     <link href="/css/font-awesome/css/all.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark mb-5">
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark mb-3">
     <a class="navbar-brand text-bold" href="{{ route('welcome') }}">
         <img src="{{ asset('images/icon32.png') }}" alt="Play Store" class="logo-admin">
         {{ config('app.name', 'Laravel') }}
@@ -35,41 +37,42 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
         @if(!Auth::guest() && Auth::user()->admin == 0)
-            <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="fa fa-home" aria-hidden="true"></i> หน้าแรก</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('book') }}"><i class="fa fa-book" aria-hidden="true"></i> จัดการหนังสือ</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('shelf', Auth::user()->id) }}"><img src="/images/books-icon.png" aria-hidden="true"> ชั้นหนังสือ</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="{{ route('home') }}"><i class="fa fa-home" aria-hidden="true"></i> หน้าแรก</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="{{ route('book') }}"><i class="fa fa-book" aria-hidden="true"></i> จัดการหนังสือ</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="{{ route('shelf', base64_encode(Auth::user()->email) ) }}"><img src="/images/books-icon.png" aria-hidden="true"> ชั้นหนังสือ</a></li>
             <li class="nav-item"><a class="nav-link disabled" aria-disabled="true" href="#"><i class="fas fa-chart-pie" aria-hidden="true"></i> สถิติ</a></li>
         @endif
         <!-- for Admin -->
-        @if(!Auth::guest() && Auth::user()->admin == 1)
-            <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><i class="fab fa-home" aria-hidden="true"></i> หน้าแรก</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('report') }}"><i class="fab fa-users" aria-hidden="true"></i> สถิติ</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('books') }}"><i class="fab fa-book" aria-hidden="true"></i> หนังสือทั้งหมด</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('banner') }}"><i class="fab fa-image" aria-hidden="true"></i> แบนเนอร์</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('users') }}"><i class="fa fa-user" aria-hidden="true"></i> สมาชิก</a></li>
+        @if(!Auth::guest() && Auth::user()->role_id == 1)
+            <!-- <li class="nav-item"><a class="nav-link text-primary" href="{{ route('books') }}"><i class="fas fa-book" aria-hidden="true"></i> หนังสือทั้งหมด</a></li> -->
+            <li class="nav-item"><a class="nav-link text-white" href="{{ route('users') }}"><i class="fas fa-users" aria-hidden="true"></i> สมาชิก</a></li>
         @endif
         </ul>
         
         <ul class="nav navbar-nav navbar-right">
             @if (Auth::guest())
-            <li class="nav-item"><a class="nav-link text-warning btn btn-link px-3" href="https://fliphtml5.com/login.php" class="nav-link"><i class="fa fa-book"></i> สร้างหนังสือใหม่</a></li>
-            <li class="nav-item"><a class="nav-link text-primary" href="{{ route('register') }}"><span class="fa fa-user-plus"></span> Register</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('login') }}"><span class="fa fa-sign-in"></span> Login</a></li>
+	    <li class="nav-item"><a class="nav-link text-primary" href="{{ route('register') }}"><span class="fa fa-user-plus"></span> Register</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="{{ route('login') }}"><span class="fa fa-sign-in"></span> Login</a></li>
             @else
             @if(Auth::user()->email_verified == 0)
-                <li class="nav-item"><a class="nav-link text-danger"><i class="fa fa-warning" aria-hidden="true"></i> กรุณายืนยันอีเมล์</a></li>
+                <li class="nav-item bg-warning rounded-pill px-3">
+                    <a href="{{ route('verification.resend') }}" data-toggle="popover" data-content="ส่งอีเมล์ยืนยันตัวตนอีกครั้ง" title="Resend verification email" class="nav-link text-danger">
+                        <i class="fa fa-warning" aria-hidden="true"></i> กรุณายืนยันอีเมล์
+                        <i class="fas fa-paper-plane"></i>
+                    </a>
+                </li>
             @endif
-            <li class="nav-item"><a class="nav-link text-warning" href="https://fliphtml5.com/login.php" class="nav-link"><i class="fa fa-book"></i> สร้างหนังสือใหม่</a></li>
             <li class="nav-item"><a class="nav-link text-info" href="{{ route('upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> อัพโหลด</a></li>
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" id="userNavmenu" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                <a href="#" class="nav-link dropdown-toggle text-white" id="userNavmenu" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                     {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="userNavmenu">
-                    <a class="dropdown-item disabled" aria-disabled="true" href="{{ route('profile') }}"><i class="fas fa-user-cog"></i> ตั้งค่าโปรไฟล์</a>
+                    <a class="dropdown-item" href="{{ route('profile') }}"><i class="fas fa-user-cog"></i> ตั้งค่าโปรไฟล์</a>
                     @if(Auth::user()->email_verified == 0)
-                        <a class="dropdown-item" href="{{ route('verification.resend') }}"><i class="fa fa-warning text-primary"></i> ส่งอีเมล์ยืนยันอีกครั้ง</a>
+                        <a class="dropdown-item text-danger" href="{{ route('verification.resend') }}"><i class="fas fa-exclamation-triangle"></i> ส่งอีเมล์ยืนยันอีกครั้ง</a>
                     @endif
+                    <a class="dropdown-item" href="{{ route('banner') }}"><i class="fas fa-image" aria-hidden="true"></i> แบนเนอร์</a>
                     <a class="dropdown-item" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                        <i class="fas fa-sign-out-alt"></i> Logout
                     </a>
@@ -80,7 +83,8 @@
             </li>
             
             <form class="form-inline my-2 my-lg-0" method="GET" action="{{route('search')}}">
-                <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
+                {{ csrf_field() }}
+                <input class="form-control mr-sm-2" type="search" name="q" value="{{app('request')->input('q')}}" placeholder="Search" aria-label="Search">
             </form>
             @endif
         </ul>
@@ -89,7 +93,12 @@
     @yield('content')
     <p class="text-center px-5 mt-5">
         Powered by <a href="http://digitalworld2u.com/">Digital World Association</a> Thailand. 
-        Make with <span class="text-danger text-bold"><i class="fa fa-heart"></i></span> // <span class="text-danger">Fighting with Covid-19</span>
+        Make with <span class="text-danger text-bold"><i class="fa fa-heart"></i></span>
+    <p class="text-center border-top pt-3">
+        <a href="mailto:paseedigital@gmail.com?subject=ติดต่อจาก%20Learning21&body=เรื่อง:%0D%0Aจาก:%0D%0Aข้อความ:%0D%0A" target="_blank" class="btn-link mx-1">ติดต่อเรา</a>
+        <a href="#" class="btn-link mx-1">เกี่ยวกับเรา</a>
+        <a href="{{route('privacy')}}" class="btn-link mx-1">ความเป็นส่วนตัว</a>
+        <a href="#" class="btn-link mx-1">เงื่อนไขการให้บริการ</a>
     </p>
     
     <!-- Scripts -->

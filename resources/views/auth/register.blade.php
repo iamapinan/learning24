@@ -8,7 +8,8 @@
                 <div class="row">
                     <form class="form-horizontal col-md-12 mt-3 mb-3 p-5 col-md-offset-4 border shadow" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
-                        <div class="form-group">
+                        <!--
+			<div class="form-group">
                             <div class="col-md-6 offset-md-4">
                                 <a href="/login/facebook" class="btn btn-primary btn-outline-primary btn-block text-white">Join with Facebook</a>
                             </div>
@@ -16,7 +17,7 @@
                                 <a href="/login/google" class="btn btn-danger btn-outline-danger btn-block text-white">Join with Google</a>
                             </div>
                             <div class="col-md-6 offset-md-4 mt-3">หรือ</div>
-                        </div>
+                        </div>-->
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label text-right d-inline-block">Name *</label>
                             <div class="col-md-6 d-inline-block">
