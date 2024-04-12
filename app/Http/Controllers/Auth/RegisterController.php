@@ -71,10 +71,10 @@ class RegisterController extends Controller
             'organization' => $data['organization'],
             'birthday' => $data['birthday'],
             'email_verification_token' => '',
-            'email_verified' => 0,
+            'email_verified' => 1,
             'email_verified_at' => now(),
         ]);
-        $user->sendEmailVerificationNotification();
+        // $user->sendEmailVerificationNotification();
 
         return $user;
     }

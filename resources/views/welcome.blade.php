@@ -5,59 +5,21 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name', 'Learning 21') }}</title>
-        <link rel="shortcut icon" type="image/png" href="/images/icon.png"/>
-        <link rel="shortcut icon" type="image/png" href="/images/icon.png"/>
+        <title>{{ config('app.name', 'Learning 24') }}</title>
+        <link rel="shortcut icon" type="image/png" href="/images/learning24.png"/>
+        <link rel="shortcut icon" type="image/png" href="/images/learning24.png"/>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Sarabun:400,700" rel="stylesheet" type="text/css">
         <link href="/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
         <link href="/css/font-awesome/css/all.css" rel="stylesheet">
         <!-- Styles -->
-        <style>
-            html, body {
-                background: url('storage/welcome.jpg') no-repeat;
-                color: #ffffff;
-                font-family: 'Sarabun', sans-serif;
-                font-weight: 100;
-                margin: 0;
-            }
-            .full-height {
-                height: 100vh;
-            }
-            .content {
-                width: 100%;
-            }
-            .title {
-                font-size: 64px;
-            }
-            .subtitle {
-                display: block;
-                margin: 10px auto;
-                margin-bottom: 25px;
-                color: #dedede;
-                font-size: 18px;
-            }
-            .bottom-info{
-                text-align: center;
-                width: 100%;
-                margin: 20px auto;
-            }
-            .bottom-info p {
-                text-align: center;
-            }
-            .partner_logo{
-                height: 60px;
-                width: auto;
-            }
-            .bg-black-opaciy{
-                background-color: rgba(3,3,3,0.75)
-            }
-        </style>
+        <link href="/css/app.css" rel="stylesheet">
+
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg sticky-top navbar-dark mb-5">
-            <a class="navbar-brand text-bold" href="{{ route('welcome') }}">
-                <img src="{{ asset('images/icon32.png') }}" alt="Play Store" class="logo-admin">
+        <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light mb-5 shadow-sm">
+            <a class="navbar-brand text-dark" href="{{ route('welcome') }}">
+                <img src="{{ asset('images/learning24-sm.png') }}" class="logo-admin">
                 {{ config('app.name', 'Laravel') }}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,8 +32,8 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     @if (Auth::guest())
-                    <li class="nav-item"><a class="nav-link text-primary" href="{{ route('register') }}"><span class="fa fa-user-plus"></span> Register</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}"><span class="fa fa-sign-in"></span> Login</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-link-dark btn-sm text-dark rounded mr-2" href="{{ route('register') }}"><span class="fa fa-user-plus"></span> Register</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-link-warning btn-sm text-warning rounded" href="{{ route('login') }}"><span class="fa fa-sign-in"></span> Login</a></li>
                     @else
                     <li class="nav-item"><a href="{{ url('/home') }}" class="nav-link">แดชบอร์ด</a></li>
                     <li class="nav-item"><a class="nav-link text-info" href="{{ route('upload') }}"><i class="fa fa-cloud-upload" aria-hidden="true"></i> อัพโหลด</a></li>
@@ -96,38 +58,67 @@
                 </ul>
             </div>
         </nav>
-        <div class="flex-center position-ref full-height">
-            <div class="content">
-                <div class="d-flex flex-row px-3">
-                    <div class="text-right d-sm-none d-none d-md-block d-lg-block offset-md-2">
-                        <img src="images/personal-ebook.png" alt="Learning 21 - Your personal ebook platform">
+        <div class="flex-center">
+            <div class="container">
+                <!-- align center -->
+                <div class="d-flex flex-row justify-content-center mb-5">
+                <!-- <div class="d-flex flex-row px-3"> -->
+                    <div class="text-right d-sm-none d-none d-md-block d-lg-block">
+                        <img src="images/256-transparent.png" alt="Learning 24 - Your learning platform">
                     </div>
                     <div class="flex-column">
                         <div class="title my-5">
-                            Learning 21
+                            Learning 24
                         </div>
                         <div class="subtitle my-3">
-                            อัพโหลดและจัดาการเนื้อหาอีบุ๊คของคุณเอง หรือจะสร้างหนังสือของตัวเองก็ได้
+                            สื่อบทเรียน อิเล็คทรอนิกส์ ครอบคลุม 8 กลุ่มสาระการเรียนรู้ ระดับมัธยมศึกษา
                         </div>
                         <div class="text-left my-5">
-                            <a href="{{ url('/register') }}" class="btn btn-primary text-white btn-lg">สมัครสมาชิกใหม่</a>
-                            <a href="{{ url('/login') }}" class="btn btn-info btn-lg text-white">เข้าสู่ระบบ</a>
+                            <a href="{{ url('/register') }}" class="btn btn-outline-dark btn-lg">สมัครสมาชิกใหม่</a>
+                            <a href="{{ url('/login') }}" class="btn btn-warning btn-lg">เข้าสู่ระบบ</a>
                         </div>
                     </div>
                 </div>
-                <div class="bottom-info bg-black-opaciy py-5 mt-5 mx-0">
-                    <h3 class="text-white mb-3 mt-1">สนับสนุนโดย</h3>
-                    <div class="row mx-0">
-                        <div class="col my-3"><a href="https://digitalworld2u.com"><img src="images/digitalworld.png" alt="Digital World association" class="partner_logo"></a></div>
-                        <div class="col my-3"><a href="https://iotech.co.th"><img src="images/iotech.png" alt="iOTech Enterprise"  class="partner_logo h-auto"></a></div>
-                        <div class="col my-3"><a href="https://pasee2u.com"><img src="images/pasee_group.png" alt="Pasee Group"  class="partner_logo"></a></div>
-                        <div class="col my-3"><a href="https://อบรมครู.com"><img src="images/obbromkru.png" alt="อบรมครู"  class="partner_logo"></a></div>
+                <h3>เนื้อหาครอบคลุ่ม 8 กลุ่มสาระ และอื่นๆ ตั้งแต่ ม.1-ม.6</h3>
+                <div class="d-flex flex-column justify-content-center my-5">
+                    <div class="row d-flex flex-row  justify-content-center w-100 mb-3 text-center">
+                        <div class="col-sm rounded bg-light mx-3 p-3">
+                        คณิตศาสตร์
+                        </div>
+                        <div class="col-sm rounded bg-light mx-3 p-3">
+                        วิทยาศาสตร์และเทคโนโลยี
+                        </div>
+                        <div class="col-sm rounded bg-light mx-3 p-3">
+                        ภาษาไทย
+                        </div>
+                        <div class="col-sm rounded bg-light mx-3 p-3">
+                        ภาษาต่างประเทศ
+                        </div>
+                    </div>
+                    <div class="row d-flex flex-row justify-content-center w-100  text-center">
+                        <div class="col-sm rounded bg-light mx-3 p-3">
+                        ศิลปะ
+                        </div>
+                        <div class="col-sm rounded bg-light mx-3 p-3">
+                        สังคมศึกษาฯ
+                        </div>
+                        <div class="col-sm rounded bg-light mx-3 p-3">
+                        สุขศึกษาและพลศึกษา
+                        </div>
+                        <div class="col-sm rounded bg-light mx-3 p-3">
+                        การงานอาชีพ
+                        </div>
+                        <div class="col-sm rounded bg-light mx-3 p-3">
+                        อื่นๆ
+                        </div>
                     </div>
                 </div>
-                <div class="footer my-5">
-                    <p class="text-center text-white">โครงการสนับสนุนการเรียนรู้ ของเด็กไทย <br>โดย สมาคมดิจิทัลเวิลด์</p>
-                    <p class="text-center text-white">พัฒนาโดย บริษัท ไอโคเทค เอ็นเตอร์ไพรส์ จำกัด</p>
-                </div>
+                <div class="d-flex flex-column justify-content-center my-5">
+                    <!-- copyright session -->
+                    <div class="text-center text-sm text-secondary">
+                        Copyright © 2019 Learning 24. All rights reserved.
+                    </div>
+                </div> 
             </div>
         </div>
     </body>

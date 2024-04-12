@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'redis'),
+    'driver' => env('SESSION_DRIVER', 'cookie'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'lifetime' => 1440,
+    'lifetime' => 14400,
 
     'expire_on_close' => false,
 
@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => 'learning21_session',
+    'cookie' => 'ebook_session',
 
     /*
     |--------------------------------------------------------------------------
@@ -148,8 +148,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', 'learning21.in.th'),
-    // 'domain' => 'learning21.iotech.co.th',
+    'domain' => env('SESSION_DOMAIN', 'localhost'),
 
     /*
     |--------------------------------------------------------------------------

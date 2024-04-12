@@ -4,8 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-    <link rel="shortcut icon" type="image/png" href="/images/icon.png"/>
     <link rel="shortcut icon" type="image/png" href="/images/icon.png"/>
     <meta property="fb:app_id" content="222301579012442" />
     @if(isset($og))
@@ -14,7 +12,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title ?? config('app.name', 'Learning 21') }}</title>
+    <title>{{ $title ?? config('app.name', 'Learning 24') }}</title>
     <!-- Script -->
     <script src="/js/jquery-3.4.1.slim.min.js"></script>
     <script src="/css/bootstrap/js/bootstrap.min.js"></script>
@@ -25,15 +23,14 @@
     <link href="/css/font-awesome/css/all.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark mb-3">
-    <a class="navbar-brand text-bold" href="{{ route('welcome') }}">
-        <img src="{{ asset('images/icon32.png') }}" alt="Play Store" class="logo-admin">
+    <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light mb-3">
+    <a class="navbar-brand text-dark" href="{{ route('welcome') }}">
+        <img src="{{ asset('images/learning24-sm.png') }}" class="logo-admin">
         {{ config('app.name', 'Laravel') }}
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
         @if(!Auth::guest() && Auth::user()->admin == 0)
@@ -44,15 +41,15 @@
         @endif
         <!-- for Admin -->
         @if(!Auth::guest() && Auth::user()->role_id == 1)
-            <!-- <li class="nav-item"><a class="nav-link text-primary" href="{{ route('books') }}"><i class="fas fa-book" aria-hidden="true"></i> หนังสือทั้งหมด</a></li> -->
+            <li class="nav-item"><a class="nav-link text-primary" href="{{ route('books') }}"><i class="fas fa-book" aria-hidden="true"></i> หนังสือทั้งหมด</a></li>
             <li class="nav-item"><a class="nav-link text-white" href="{{ route('users') }}"><i class="fas fa-users" aria-hidden="true"></i> สมาชิก</a></li>
         @endif
         </ul>
         
         <ul class="nav navbar-nav navbar-right">
             @if (Auth::guest())
-	    <li class="nav-item"><a class="nav-link text-primary" href="{{ route('register') }}"><span class="fa fa-user-plus"></span> Register</a></li>
-            <li class="nav-item"><a class="nav-link text-white" href="{{ route('login') }}"><span class="fa fa-sign-in"></span> Login</a></li>
+            <li class="nav-item"><a class="nav-link btn btn-link-dark btn-sm text-dark rounded mr-2" href="{{ route('register') }}"><span class="fa fa-user-plus"></span> Register</a></li>
+            <li class="nav-item"><a class="nav-link btn btn-link-warning btn-sm text-warning rounded" href="{{ route('login') }}"><span class="fa fa-sign-in"></span> Login</a></li>
             @else
             @if(Auth::user()->email_verified == 0)
                 <li class="nav-item bg-warning rounded-pill px-3">
@@ -74,7 +71,7 @@
                     @endif
                     <a class="dropdown-item" href="{{ route('banner') }}"><i class="fas fa-image" aria-hidden="true"></i> แบนเนอร์</a>
                     <a class="dropdown-item" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                       <i class="fas fa-sign-out-alt"></i> Logout
+                        <i class="fas fa-sign-out-alt"></i> Logout
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
@@ -91,15 +88,6 @@
     </div>
     </nav>
     @yield('content')
-    <p class="text-center px-5 mt-5">
-        Powered by <a href="http://digitalworld2u.com/">Digital World Association</a> Thailand. 
-        Make with <span class="text-danger text-bold"><i class="fa fa-heart"></i></span>
-    <p class="text-center border-top pt-3">
-        <a href="mailto:paseedigital@gmail.com?subject=ติดต่อจาก%20Learning21&body=เรื่อง:%0D%0Aจาก:%0D%0Aข้อความ:%0D%0A" target="_blank" class="btn-link mx-1">ติดต่อเรา</a>
-        <a href="#" class="btn-link mx-1">เกี่ยวกับเรา</a>
-        <a href="{{route('privacy')}}" class="btn-link mx-1">ความเป็นส่วนตัว</a>
-        <a href="#" class="btn-link mx-1">เงื่อนไขการให้บริการ</a>
-    </p>
     
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>

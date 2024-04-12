@@ -113,3 +113,42 @@ b {
         height: 192px;
     }
 }
+html, body {
+    background: url('storage/welcome.jpg') no-repeat;
+    color: #3b3b3b;
+    font-family: 'Sarabun', sans-serif;
+    font-weight: 100;
+    margin: 0;
+}
+.full-height {
+    height: 100vh;
+}
+.content {
+    width: 100%;
+}
+.title {
+    font-size: 48px;
+    
+}
+.subtitle {
+    display: block;
+    margin: 10px auto;
+    margin-bottom: 25px;
+    color: #373737;
+    font-size: 22px;
+}
+.bottom-info{
+    text-align: center;
+    width: 100%;
+    margin: 20px auto;
+}
+.bottom-info p {
+    text-align: center;
+}
+.partner_logo{
+    height: 60px;
+    width: auto;
+}
+.bg-black-opaciy{
+    background-color: rgba(3,3,3,0.75)
+}
