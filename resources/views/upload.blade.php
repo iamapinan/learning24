@@ -84,33 +84,17 @@
                         </div>
                         <div class="form-group">
                             <label for="grade">ชั้นเรียน <span class="text-muted">ไม่บังคับ</span></label>
-                                <select class="form-control" id="sub" name="grade">
-                                    <option value="null" selected>เลือกชั้นเรียน</option>
-                                @foreach($grade as $gd)
-                                    <option value="{{$gd->id}}">{{ $gd->title }}</option>
-                                @endforeach
-                                </select>
+                            <select class="form-control" id="sub" name="grade">
+                                <option value="null" selected>เลือกชั้นเรียน</option>
+                            @foreach($grade as $gd)
+                                <option value="{{$gd->id}}">{{ $gd->title }}</option>
+                            @endforeach
+                            </select>
                         </div>
-                        
-                        
-                        <div class="checkbox mt-5">
-                            <label class="text-muted">
-                                <input type="checkbox" id="isPublic" disabled name="isPublic" value="1"> กำหนดให้ทุกคนในองค์กรดูเนื้อหานี้ได้ 
-                                <span class="text-danger">ยังไม่พร้อมใช้งาน</span>
-                            </label>
-                        </div>
-                        <input type="hidden" name="userid" value="{{Auth::user()->id}}">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" id="isGlobal" name="isGlobal" value="1" required> เปิดเผยสาธารณะให้กับคนทั่วไปที่ไม่ได้อยู่ในองค์กรด้วย
-                            </label>
-                        </div>
-                        <div class="checkbox mb-3">
-                            <label class="text-break" for="isAccept">
-                                <input type="checkbox" id="isAccept" name="isAccept" value="1" required> ข้าพเจ้ายอมรับว่าหนังสือนี้เป็นกรรมสิทธิของข้าพเจ้า และเป็นความรับผิดชอบของข้าพเจ้าแต่เพียงผู้เดียว ทางผู้ให้บริการระบบไม่มีส่วนเกี่ยวข้องกับการกระทำใดๆ อันเป็นการละเมิดสิทธิผู้อื่นแต่อย่างใด
-                            </label>
-                        </div>
-                        {{ csrf_field() }}
+                            <input type="hidden" name="userid" value="{{Auth::user()->id}}">
+                            <input type="hidden" id="isGlobal" name="isGlobal" value="1">
+                            <input type="hidden" id="isAccept" name="isAccept" value="1" >
+                            {{ csrf_field() }}
                         <button type="submit" class="btn btn-primary" >
                             ดำเนินการ
                         </button>

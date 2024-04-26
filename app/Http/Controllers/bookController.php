@@ -58,6 +58,92 @@ class bookController extends Controller
         return view('book')->with('books', $books);
     }
 
+    public function subjects() {
+        $subjects = DB::table('subcat')->get();
+        return view('subjects')->with('subjects', $subjects);
+    }
+
+    public function topics($id) {
+        $topics = DB::table('topics')
+        ->where('subcat_id', $id)
+        ->orderBy('id', 'DESC')
+        ->paginate(25);
+
+        $subject = DB::table('subcat')
+        ->where('id', $id)
+        ->first();
+
+        $levels = DB::table('grade')->get();
+        
+        return view('subject')->with([
+            'topics' => $topics, 
+            'subject' => $subject,
+            'levels' => $levels
+        ]);
+    }
+
+    public function search_topic(Request $request) {
+        $topics = DB::table('topics')
+        ->where('subcat_id', $request->subject_id)
+        ->where('title', 'like', '%' . $request->q . '%')
+        ->paginate(25);
+
+        $levels = DB::table('grade')->get();
+        return response()->json([
+            'topics' => $topics,
+            'levels' => $levels,
+            'role' => Auth::user()->role_id
+        ]);
+    }
+
+    public function delete_topic($id) {
+        DB::table('topics')->where('id', $id)->delete();
+        return response()->json(['status' => 'success']);
+    }
+
+    public function create_topic($id) {
+        $level = DB::table('grade')->get();
+        $subject = DB::table('subcat')
+        ->where('id', $id)
+        ->first();
+
+        return view('create_topic')->with([
+            'levels' => $level,
+            'subject' => $subject
+        ]);
+    }
+
+    public function store_topic(Request $request) {
+        DB::table('topics')->insert([
+            'subcat_id' => $request->subject,
+            'grade_id' => $request->grade,
+            'title' => $request->title
+        ]);
+        return response()->json(['status' => 'success']);
+    }
+
+    public function edit_topic($id) {
+        $topic = DB::table('topics')
+        ->where('id', $id)
+        ->first();
+        $levels = DB::table('grade')->get();
+
+        return view('edit_topic')->with([
+            'topic' => $topic,
+            'levels' => $levels
+        ]);
+    }
+
+    public function update_topic(Request $request) {
+        DB::table('topics')
+        ->where('id', $request->id)
+        ->update([
+            'title' => $request->title,
+            'grade_id' => $request->grade
+        ]);
+        return response()->json(['status' => 'success']);
+    }
+
     public function recommend(Request $request) {
         DB::table('book')
         ->where('id', $request->id)

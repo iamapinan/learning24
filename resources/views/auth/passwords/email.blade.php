@@ -3,12 +3,12 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 mx-auto">
-            <h1>Reset password</h1>
+        <div class="col-md-8 mx-auto mt-5">
+            <h1 class="text-center font-weight-bold">รีเซ็ตรหัสผ่าน</h1>
             <div class="row">
                 
 
-                <form class="form-horizontal col-md-12 mt-3 mb-3 p-5 border shadow" method="POST" action="{{ route('password.email') }}">
+                <form class="form-horizontal col-md-12 mt-3 mb-3 p-5" method="POST" action="{{ route('password.email') }}">
                     {{ csrf_field() }}
                     
                     @if (session('status'))
@@ -22,10 +22,10 @@
                         </div>
                     @endif
                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <label for="email" class="col-md-4 control-label text-right d-inline-block">E-Mail Address</label>
+                        <label for="email" class="col-md-4 control-label text-right d-inline-block">อีเมล</label>
 
                         <div class="col-md-6 d-inline-block">
-                            <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                            <input id="email" type="email" class="form-control rounded-pill" name="email" value="{{ old('email') }}" required>
 
                             @if ($errors->has('email'))
                                 <span class="help-block">
@@ -36,11 +36,11 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
-                                Send Password Reset Link
+                        <div class="col-md-8 offset-md-4">
+                            <button type="submit" class="btn btn-warning rounded-pill mr-3">
+                                ส่งอีเมลสำหรับตั้งรหัสผ่านใหม่
                             </button>
-                            <a href="{{route('login')}}" class="btn btn-light">Login</a>
+                            <a href="{{route('login')}}" class="btn btn-light rounded-pill">ยกเลิก</a>
                         </div>
                     </div>
                 </form>

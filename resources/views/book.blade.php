@@ -6,12 +6,12 @@
     <div class="row">
         <div class="col-md-12">
                 <div class="mb-5" style="background-image: url(/images/header-image-store.jpg);background-repeat: no-repeat;background-size: contain;height: 300px">
-                    <h3 class="pl-5 text-lg-left pt-4">จัดการหนังสือ</h3>
+                    <h3 class="pl-5 text-lg-left pt-4">จัดการเนื้อหา</h3>
                 </div>
                 <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
+                <ol class="breadcrumb rounded-pill">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">หน้าแรก</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">จัดการหนังสือ</li>
+                    <li class="breadcrumb-item active" aria-current="page">จัดการเนื้อหา</li>
                 </ol>
                 </nav>
 
@@ -58,8 +58,8 @@
                     @endforeach
                     @if(count($books) == 0)
                         <div class="alert alert-warning text-center mt-1 w-75 mx-auto py-5" role="alert">
-                            คุณยังไม่มีหนังสือ
-                            <a href="{{route('upload')}}" class="btn btn-primary">อัพโหลดหนังสือ</a>
+                            คุณยังไม่มีเนื้อหา
+                            <a href="{{route('upload')}}" class="btn btn-warning rounded-pill">อัพโหลดเนื้อหา</a>
                         </div>
                     @endif
                     

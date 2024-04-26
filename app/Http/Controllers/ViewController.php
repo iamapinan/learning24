@@ -33,6 +33,10 @@ class ViewController extends Controller
 
     public function index(Request $request) {
 
+        if (!Auth::check()) {
+            return redirect('/login?redirectTo=/explore');
+        }
+
         $content = DB::table('all_book_data')
         ->select($this->fields)
         ->where('id', $request->id)->get();

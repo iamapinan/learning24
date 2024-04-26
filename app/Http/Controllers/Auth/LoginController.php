@@ -118,4 +118,35 @@ class LoginController extends Controller
             return $user;
         }
     }
+    // Login
+    public function login (Request $request) {
+        $this->validateLogin($request);
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            return $this->sendLockoutResponse($request);
+        }
+
+        if ($this->attemptLogin($request)) {
+            // if has redirectTo page
+            if (!empty($request->redirectTo)) {
+                return redirect($request->redirectTo);
+            }
+            // if user not admin redirect to explore page
+            // else redirect to home page
+            if (!auth()->user()->is_admin) {
+                return redirect('/explore');
+            }
+            
+            return $this->sendLoginResponse($request);
+        }
+
+        $this->incrementLoginAttempts($request);
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    public function logout (Request $request) {
+        $this->guard()->logout();
+        $request->session()->invalidate();
+        return $this->loggedOut($request) ?: redirect('/');
+    }
 }

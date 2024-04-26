@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-12 p-5 shadow mt-5 round">
+        <div class="col-md-12 p-5 shadow mt-5 rounded-xl">
             <h1 class="text-left"><i class="fas fa-pen"></i> Edit profile</h1>
                  <!-- Default panel contents -->
                  @if (session('status'))
@@ -34,7 +34,7 @@
                         </tr>
                         <tr>
                             <th></th>
-                            <td><input type="submit" value="บันทึกการแก้ไข" class="btn btn-primary"></td>
+                            <td><input type="submit" value="บันทึกการแก้ไข" class="btn btn-primary rounded-xl"></td>
                         </tr>
                     </tbody>
                 </table>
