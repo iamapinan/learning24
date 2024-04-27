@@ -11,7 +11,7 @@ use Imagick;
 class UploadController extends Controller
 {
 
-    protected $fieldUpload = ['id', 'title', 'description', 'agreement', 'cover_file', 'author', 'user_id', 'isPublic', 'fileUrl', 'group_id', 'cat_id', 'view', 'sub_cat', 'grade','link_pretest', 'link_test', 'type_book'];
+    protected $fieldUpload = ['id', 'title', 'description', 'agreement', 'cover_file', 'author', 'user_id', 'isPublic', 'fileUrl', 'group_id', 'cat_id', 'topic_id', 'view', 'sub_cat', 'grade','link_pretest', 'link_test', 'type_book', 'video_url'];
     protected $fieldGroup = ['group_id', 'book_id'];
 
     /**
@@ -31,10 +31,11 @@ class UploadController extends Controller
      */
     public function index()
     {
-        $getCat = $this->getCategoryList();
         $sub = $this->getSubcat();
         $grade = $this->getGrade();
-        return view('upload')->with('category', $getCat)->with('sub', $sub)->with('grade', $grade);
+        return view('upload')
+        ->with('sub', $sub)
+        ->with('grade', $grade);
     }
 
     public function getCategoryList()
@@ -51,40 +52,49 @@ class UploadController extends Controller
     {
         return DB::table('grade')->select('grade_id as id', 'title')->get();
     }
+
+    public function getTopics(Request $request)
+    {
+        $topics = DB::table('topics')->select('id', 'title')
+        ->where('subcat_id', $request->subject)
+        ->where('grade_id', $request->level)
+        ->get();
+        return response()->json(['status' => 'success', 'data' =>$topics]);
+    }
     // Upload handle.
     // @return Respose
     public function upload(Request $request)
     {
         $lastBookID = $this->getNextBookInsertID();
-
+  
         if($request->type_book == 0) { // E-Book
-        $file = $request->file('bookfile')->store($lastBookID, 'book');
-        $fullpath = Storage::disk('book')->path('/');
-        chmod($fullpath . $lastBookID, 0777);
-        //Extract files
-       
+        //     //Upload file
+            $file = $request->file('bookfile')->store($lastBookID, 'book');
+            $fullpath = Storage::disk('book')->path('/');
+            // print_r($fullpath);
+            chmod($fullpath . $lastBookID, 0777);
+        //     //Extract files
+            $extract_dir = $fullpath . $lastBookID;
+            $zipper = new Zipper;
+    
+            $zipper->make($fullpath . $file)->folder('')->extractTo($extract_dir);
+    
+            $contents = scandir($extract_dir);
+            // check if $contents is a directory and actually has items
+            if (is_array($contents) && count($contents)) {
+                foreach($contents as $item) { // loop through directory contents
+                    if (substr(strtolower($item), -5) == ".html") { // checking if a file ends with .html
+                    rename($extract_dir . "/" . $item, $extract_dir . "/index.html"); // rename it to index.html
+                    break; // no need to loop more, job's done
+                    }
+                }
+            }
+    
+            unlink($fullpath . $file);
+            $zipper->close();
 
-           $extract_dir = $fullpath . $lastBookID;
-           $zipper = new Zipper;
-   
-           $zipper->make($fullpath . $file)->folder('')->extractTo($extract_dir);
-   
-           $contents = scandir($extract_dir);
-           // check if $contents is a directory and actually has items
-           if (is_array($contents) && count($contents)) {
-               foreach($contents as $item) { // loop through directory contents
-                   if (substr(strtolower($item), -5) == ".html") { // checking if a file ends with .html
-                   rename($extract_dir . "/" . $item, $extract_dir . "/index.html"); // rename it to index.html
-                   break; // no need to loop more, job's done
-                   }
-               }
-           }
-   
-           unlink($fullpath . $file);
-           $zipper->close();
-
-           $mainfile = $lastBookID . '/index.html';
-           $coverfile = $lastBookID . '/files/large/1.jpg';
+            $mainfile = $lastBookID . '/index.html';
+            $coverfile = $lastBookID . '/files/large/1.jpg';
 
         } else { // PDF
             $md5Name = md5_file($request->file('pdf_bookfile')->getRealPath());
@@ -105,8 +115,10 @@ class UploadController extends Controller
         }
 
         $userid = ($request->userid == '') ? Auth::user()->id : $request->userid;
-        $group = ($request->group == '') ? 0 : $request->group;
-
+        $group = 1;
+        $topic = $request->topic;
+        $sub = $request->sub;
+        $grade = $request->grade;
 
         $link_test = $request->attachment;
 
@@ -121,19 +133,20 @@ class UploadController extends Controller
             $request->isGlobal,
             $mainfile, 
             $group, 
-            $request->category, 
+            0, 
+            $topic,
             0, 
             $request->sub, 
             $request->grade, 
             $request->before_attachment,
             $link_test,
-            $request->type_book
-            ]);
-        $groupdata = array_combine($this->fieldGroup, [$group, $lastBookID]);
-        // print_r($bookdata);
-        // exit;
+            $request->type_book,
+            $request->video_url
+        ]);
+        // $groupdata = array_combine($this->fieldGroup, [$group, $lastBookID]);
+
         $createbook = $this->insertBook($bookdata);
-        $this->insertBookGroup($groupdata);
+        // $this->insertBookGroup($groupdata);
 
         if ($createbook != '') {
             return back()->with('status', 'บันทึกเรียบร้อยแล้ว');

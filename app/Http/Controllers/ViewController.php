@@ -20,7 +20,8 @@ class ViewController extends Controller
         'isPublic', 
         'fileUrl', 
         'group_id', 
-        'cat_id', 
+        'cat_id',
+        'topic_id',
         'view', 
         'sub_cat', 
         'grade', 
@@ -37,33 +38,29 @@ class ViewController extends Controller
             return redirect('/login?redirectTo=/explore');
         }
 
-        $content = DB::table('all_book_data')
-        ->select($this->fields)
-        ->where('id', $request->id)->get();
+        $content = DB::table('book')
+        ->select(DB::raw('book.id, book.title, book.description, book.cover_file, book.author, book.user_id, book.isPublic, book.fileUrl, book.group_id, book.cat_id, book.topic_id, book.view, book.sub_cat, book.grade, subcat.title as subject, grade.title as gradetitle, book.link_test,book.link_pretest, book.recommend, topics.title as topictitle, book.video_url, book.type_book'))
+        ->leftJoin('topics', 'book.topic_id', '=', 'topics.id')
+        ->leftJoin('grade', 'book.grade', '=', 'grade.grade_id')
+        ->leftJoin('subcat', 'book.sub_cat', '=', 'subcat.id')
+        ->where('book.id', $request->id)
+        ->first();
 
-        $user = DB::table('users')->where('id', $content[0]->user_id)->first();
-
-        if(count($content)==0) {
+        if($content == null) {
             return redirect('/404');
         }
 
-        $title =  $content[0]->title.' - '. config('app.name');
-        $ogp = new OpenGraph;
-        $og = $ogp->title($content[0]->title)
-        ->type('article')
-        ->image(asset('storage/book/'.str_replace('thumb','large', $content[0]->cover_file) ))
-        ->description($content[0]->description)
-        ->url();
+        $title =  $content->title.' - '. config('app.name');
 
         DB::table('book')
         ->where('id', $request->id)
-        ->update(['view'=>($content[0]->view+1)]);
+        ->update(['view'=>($content->view+1)]);
 
         if(!Auth::guest()) {
             DB::table('view_history')
             ->insert(['content_id'=>$request->id, 'user'=>Auth::user()->id]);
         }
 
-        return view('view', ['content' => $content, 'user_info' => $user], compact('title', 'og'));
+        return view('view', ['content' => $content], compact('title'));
     }
 }

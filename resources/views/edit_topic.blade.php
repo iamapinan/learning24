@@ -3,7 +3,7 @@
 @section('content')
 <div class="container px-0">
     <div class="row mt-5 justify-content-between">
-        <h3 class="font-weight-bold"><a href="/subject/{{ $topic->subcat_id }}" class="text-dark px-3 py-1 rounded-circle bg-light"><i class="fa fa-chevron-left text-dark"></i></a> แก้ไขหน่วยการเรียน</h3>
+        <h3 class="font-weight-bold"><a href="/subject/{{ $topic->subcat_id }}" class="text-dark px-3 py-1"><i class="fa fa-chevron-left text-dark"></i></a> แก้ไขหน่วยการเรียน</h3>
     </div>
 
     <div class="row">
@@ -40,7 +40,7 @@
         $("#create_topic_form").submit((event) => {
             event.preventDefault();
             $.ajax({
-                url: "/topic/update",
+                url: "/topic_update",
                 method: "PATCH",
                 data: $("#create_topic_form").serialize(),
                 success: (response) => {

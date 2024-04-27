@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use ChrisKonnertz\OpenGraph\OpenGraph;
+use App\BookModel;
 
 class ExploreController extends Controller
 {
@@ -21,6 +22,7 @@ class ExploreController extends Controller
         'fileUrl', 
         'group_id', 
         'cat_id', 
+        'topic_id',
         'view', 
         'sub_cat', 
         'grade', 
@@ -35,48 +37,33 @@ class ExploreController extends Controller
         if (!Auth::check()) {
             return redirect('/login?redirectTo=/explore');
         }
-        // get user data
-        $user = Auth::user();
-
-        $filter = $_GET['subject'] ?? $_GET['level'] ?? $_GET['search'] ?? null;
-        $filter_type = null;
-        $current_subject = 'เนื้อหาทั้งหมด';
-        $current_level = 'เนื้อหาทุกระดับชั้น';
-        $subjects = DB::table('subcat')->get();
+        // get subject and level
         $levels = DB::table('grade')->get();
+        $subjects = DB::table('subcat')->get();
 
-        if(isset($_GET['subject']) && $_GET['subject'] != 0) {
-            $filter_type = 'sub_cat';
-            $current_subject = array_values($subjects->toArray())[$_GET['subject']-1]->title;
-        } else if(isset($_GET['level'])) {
-            $filter_type = 'grade';
-            $current_level = array_values($levels->toArray())[$_GET['level']-1]->title;
-        } else {
-            $filter_type = 'title';
-            $filter = '%'.$filter.'%';
-        }
-        $title = isset($_GET['search']) ? 'ผลการค้นหา ' . $_GET['search'] : $current_subject;
+        $title = isset($_GET['search']) ? 'ผลการค้นหา ' . $_GET['search'] : null;
         $sort = isset($_GET['sort']) && $_GET['sort'] == 'alphabet' ? 'title' : 'id';
         
-        $contents = DB::table('all_book_data')
-        ->select($this->fields)
-        ->where('isPublic', 1)
-        ->where($filter_type, $filter)
+        $contents_query = BookModel::Query()->where('isPublic', 1)
+        ->when(isset($_GET['subject']) && $_GET['subject'] != 0, function ($query) {
+            return $query->where('sub_cat', $_GET['subject']);
+        })
+        ->when(isset($_GET['level']), function ($query) {
+            return $query->where('grade', $_GET['level']);
+        })
+        ->when(isset($_GET['search']), function ($query) {
+            return $query->where('title', 'like', '%'.$_GET['search'].'%');
+        })
         ->orderBy($sort, 'DESC')
         ->paginate(20);
-        
+    
+
         return view('explore', [
             'title' => $title,
             'levels'=> $levels,
             'subjects'=> $subjects,
-            'filters'=> [
-                'subject'=> $current_subject,
-                'level'=> $current_level,
-                'search'=> $filter
-            ],
             'sort'=> $sort,
-            'user'=> $user,
-            'contents'=>$contents
+            'contents' => $contents_query
         ]);
     }
 }

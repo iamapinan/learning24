@@ -19,7 +19,8 @@ class bookController extends Controller
         'isPublic', 
         'fileUrl', 
         'group_id', 
-        'cat_id', 
+        'cat_id',
+        'topic_id',
         'view', 
         'sub_cat', 
         'grade', 
@@ -37,8 +38,8 @@ class bookController extends Controller
     public function index(){
 
         $books = DB::table('all_book_data')
-        ->select($this->fields)
-        ->where('user_id', Auth::id())
+        ->select(DB::raw('all_book_data.id, all_book_data.title, all_book_data.description, all_book_data.cover_file, all_book_data.author, all_book_data.user_id, all_book_data.isPublic, all_book_data.fileUrl, all_book_data.group_id, all_book_data.cat_id, all_book_data.topic_id, all_book_data.view, all_book_data.sub_cat, all_book_data.grade, all_book_data.subject, all_book_data.gradetitle, all_book_data.link_test, all_book_data.recommend, topics.title as topictitle'))
+        ->leftJoin('topics', 'all_book_data.topic_id', '=', 'topics.id')
         ->orderBy('id', 'DESC')
         ->paginate(20);
        
@@ -65,7 +66,9 @@ class bookController extends Controller
 
     public function topics($id) {
         $topics = DB::table('topics')
+        ->select(DB::raw('topics.id, topics.title, topics.grade_id, grade.title as gradetitle'))
         ->where('subcat_id', $id)
+        ->leftJoin('grade', 'topics.grade_id', '=', 'grade.grade_id')
         ->orderBy('id', 'DESC')
         ->paginate(25);
 
@@ -73,7 +76,9 @@ class bookController extends Controller
         ->where('id', $id)
         ->first();
 
-        $levels = DB::table('grade')->get();
+        $levels = DB::table('grade')
+        ->select(["grade_id as id", "title"])
+        ->get();
         
         return view('subject')->with([
             'topics' => $topics, 
@@ -82,16 +87,32 @@ class bookController extends Controller
         ]);
     }
 
-    public function search_topic(Request $request) {
-        $topics = DB::table('topics')
-        ->where('subcat_id', $request->subject_id)
-        ->where('title', 'like', '%' . $request->q . '%')
+    public function topic($id) {
+        $contents = DB::table('all_book_data')
+        ->where('topic_id', $id)
+        ->orderBy('id', 'DESC')
         ->paginate(25);
 
-        $levels = DB::table('grade')->get();
+        $topic = DB::table('topics')
+        ->where('id', $id)
+        ->first();
+        
+        return view('topic')->with([
+            'contents' => $contents,
+            'topic' => $topic
+        ]);
+    }
+
+    public function search_topic(Request $request) {
+        $topics = DB::table('topics')
+        ->select(DB::raw('topics.id, topics.title, topics.grade_id, topics.subcat_id, grade.title as gradetitle'))
+        ->where('topics.subcat_id', $request->subject_id)
+        ->where('topics.title', 'like', '%' . $request->q . '%')
+        ->leftJoin('grade', 'topics.grade_id', '=', 'grade.grade_id')
+        ->paginate(25);
+
         return response()->json([
             'topics' => $topics,
-            'levels' => $levels,
             'role' => Auth::user()->role_id
         ]);
     }

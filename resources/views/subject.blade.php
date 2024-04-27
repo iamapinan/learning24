@@ -3,7 +3,7 @@
 @section('content')
 <div class="container px-0">
     <div class="row mt-5 justify-content-between">
-        <h3 class="font-weight-bold"><a href="/subjects" class="text-dark px-3 py-1 rounded-circle bg-light"><i class="fa fa-chevron-left text-dark"></i></a>เนื้อหาใน <span class="text-primary">{{$subject->title}}</span></h3>
+        <h3 class="font-weight-bold"><a href="/subjects" class="text-dark px-3 py-1"><i class="fa fa-chevron-left text-dark"></i></a>หน่วยการเรียนใน <span class="text-primary">{{$subject->title}}</span></h3>
         @if(Auth::user()->role_id == 1)
         <a href="/create-topic/{{$subject->id}}" class="btn btn-dark rounded-pill mt-3 align-middle"><i class="fa fa-plus-circle"></i> เพิ่มหน่วยการเรียน</a>
         @endif
@@ -15,7 +15,7 @@
                 <tr>
                 <th scope="col">#</th>
                 <th scope="col">
-                    <form action="/topic/search" method="GET" id="search-topic">
+                    <form action="/topic_search" method="GET" id="search-topic">
                         <input type="hidden" name="subject_id" value="{{$subject->id}}">
                         {{ csrf_field() }}
                         <div class="input-group">
@@ -37,7 +37,7 @@
                 <tr data-id="{{$topic->id}}">
                     <th scope="row">{{ $topic->id }}</th>
                     <td><a href="/topic/{{ $topic->id }}">{{ $topic->title }}</a></td>
-                    <td>{{ $levels->toArray()[$topic->grade_id-1]->title }}</td>
+                    <td>{{ $topic->gradetitle }}</td>
                     @if(Auth::user()->role_id == 1)
                     <td>
                         <a href="/edit-topic/{{ $topic->id }}" class="btn btn-warning btn-sm rounded-pill"><i class="fa fa-edit"></i> แก้ไข</a>
@@ -90,24 +90,16 @@
                 success: function(result) {
                     if(result.topics.data.length > 0) {
                         @if(Auth::user()->role_id == 1)
-                        let output = result.topics.data.map(function(topic){
-                            let level = result.levels.filter(function(level){
-                                return level.grade_id == topic.grade_id;
-                            });
-
-                            return `<tr data-id="${topic.id}"><th scope="row">${topic.id}</th><td><a href="/topic/${topic.id}">${topic.title}</a></td><td>${level[0].title}</td><td>
+                            let output = result.topics.data.map(function(topic){
+                            return `<tr data-id="${topic.id}"><th scope="row">${topic.id}</th><td><a href="/topic/${topic.id}">${topic.title}</a></td><td>${topic.gradetitle}</td><td>
                             <a href="/edit-topic/${topic.id}" class="btn btn-warning btn-sm rounded-pill"><i class="fa fa-edit"></i> แก้ไข</a>
                             <button type="button" onclick="do_delete(${topic.id})" data-id="${topic.id}" class="btn btn-danger btn-delete-topic btn-sm rounded-pill"><i class="fa fa-trash"></i> ลบ</button>
                             </td></tr>`;
                         });
                         @else
-                        let output = result.topics.data.map(function(topic){
-                            let level = result.levels.filter(function(level){
-                                return level.grade_id == topic.grade_id;
+                            let output = result.topics.data.map(function(topic){
+                                return `<tr data-id="${topic.id}"><th scope="row">${topic.id}</th><td><a href="/topic/${topic.id}">${topic.title}</a></td><td>${topic.gradetitle}</td></tr>`;
                             });
-
-                            return `<tr data-id="${topic.id}"><th scope="row">${topic.id}</th><td><a href="/topic/${topic.id}">${topic.title}</a></td><td>${level[0].title}</td></tr>`;
-                        });
                         @endif
                         $('.table tbody').html(output);
                     } else {

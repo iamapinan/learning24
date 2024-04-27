@@ -36,12 +36,11 @@
         $("#create_topic_form").submit((event) => {
             event.preventDefault();
             $.ajax({
-                url: "/topic/store",
+                url: "/topic_store",
                 method: "POST",
                 data: $("#create_topic_form").serialize(),
                 success: (response) => {
                     if (response.status == 'success') {
-                        alert(response.status);
                         window.location.href = "/subject/{{ $subject->id }}";
                     }
                 },

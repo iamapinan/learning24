@@ -2,62 +2,64 @@
 
 @section('content')
 <div class="container">
-    <ul class="tabs" role="tablist">
-        <li class="tab-link current" data-tab="book"><a href="#" class="btn-link">หนังสือ</a></li>
-        @if($content[0]->link_pretest != '')
-        <li class="tab-link" data-tab="quizebefore"><a href="#"class="btn-link">ข้อสอบก่อนเรียน</a>
+    <div class="row">
+        <div class="col-md-12">
+        <h5 class="text-dark font-weight-bold">{{$content->title}}</h5>
+        <p>{{$content->gradetitle}} / {{$content->subject}} > {{$content->topictitle}}</p>
+        </div>
+    </div>
+
+    <ul class="tabs ml-5" role="tablist">
+        <li class="tab-link current rounded-top py-2 px-3" data-tab="book">อีบุ๊ก/PDF</li>
+        @if($content->link_pretest != '')
+        <li class="tab-link rounded-top py-2 px-3" data-tab="quizebefore">ข้อสอบก่อนเรียน</li>
         @endif
-        @if($content[0]->link_test != '')
-        <li class="tab-link" data-tab="quize"><a href="#"class="btn-link">ข้อสอบหลังเรียน</a>
+        @if($content->link_test != '')
+        <li class="tab-link rounded-top py-2 px-3" data-tab="quize">ข้อสอบหลังเรียน</li>
         @endif
-        <li class="tab-link" data-tab="about"><a href="#"class="btn-link">รายละเอียด</a>
-        <li class="tab-link" data-tab="share"><a href="#"class="text-info"> <i class="fa fa-share"></i> &nbsp;แชร์</a>
-        <li class="tab" id="screenToggle"><a href="#"class="text-danger"><i class="fa fa-expand"></i> &nbsp;แสดงเต็มจอ</a>
+        @if($content->video_url != '')
+        <li class="tab-link rounded-top py-2 px-3" data-tab="video">วิดีโอ</li>
+        @endif
+        <li class="tab-link rounded-top py-2 px-3" data-tab="about">รายละเอียด</li>
+        <li class="tab float-right mr-3 py-2 px-3 text-danger" id="screenToggle"><i class="fa fa-expand"></i> &nbsp;แสดงเต็มจอ</li>
     </ul>
 
-
-    <div class="tab-contents shadow">
+    <div class="tab-contents shadow rounded-lg p-1 bg-dark">
         <div class="tab-pane current" id="book">
-            @if($content[0]->type_book == 0)
-                <iframe src="{{asset('storage/book/'.$content[0]->fileUrl)}}" frameborder="0" class="w-100"></iframe>
+            @if($content->type_book == 0)
+                <iframe src="{{asset('storage/book/'.$content->fileUrl)}}" frameborder="0" class="w-100"></iframe>
             @else
-                <iframe src="/viewer/?file={{asset('storage/book/'.$content[0]->fileUrl)}}" frameborder="0" class="w-100"></iframe>
+                <iframe src="/viewer/?file={{asset('storage/book/'.$content->fileUrl)}}" frameborder="0" class="w-100"></iframe>
             @endif
         </div>
         <div class="tab-pane" id="quize">
-        @if($content[0]->link_test != '')
-            <iframe src="{{$content[0]->link_test}}" frameborder="0" class="w-100"></iframe>
+        @if($content->link_test != '')
+            <iframe src="{{$content->link_test}}" frameborder="0" class="w-100"></iframe>
         @endif
         </div>
         <div class="tab-pane" id="quizebefore">
-        @if($content[0]->link_pretest != '')
-            <iframe src="{{$content[0]->link_pretest}}" frameborder="0" class="w-100"></iframe>
+        @if($content->link_pretest != '')
+            <iframe src="{{$content->link_pretest}}" frameborder="0" class="w-100"></iframe>
+        @endif
+        </div>
+        <div class="tab-pane" id="video">
+        @if($content->video_url != '')
+            <iframe src="https://www.youtube.com/embed/{{explode('v=', $content->video_url)[1]}}" frameborder="0" class="w-100"></iframe>
         @endif
         </div>
         <div class="tab-pane" id="about">
-            <h3>{{$content[0]->title}}</h3>
-            <p class="text-secondary ml-3">โดย <a href="{{url('/shelf/'.base64_encode($user_info->email))}}">{{$content[0]->author}}</a></p>
+            <h3>{{$content->title}}</h3>
+            <div class="text-dark">{{$content->description}}</div>
             <p class="ml-3">
-                @if(!empty($content[0]->gradetitle))
-                <span class="badge badge-light"><i class="fa fa-graduation-cap"></i> {{$content[0]->gradetitle}} </span>
+                @if(!empty($content->gradetitle))
+                <div class="text-secondary ml-3"><i class="fa fa-graduation-cap"></i> {{$content->gradetitle}} </div>
                 @endif
-                @if(!empty($content[0]->subject))
-                <span class="badge badge-light"><i class="fa fa-folder"></i> {{$content[0]->subject}} </span>
+                @if(!empty($content->subject))
+                <div class="text-secondary ml-3"><i class="fa fa-folder"></i> {{$content->subject}} > {{$content->topictitle}} </div>
                 @endif
             </p>
-            <div class="text-muted ml-3">{{$content[0]->description}}</div>
         </div>
 
-        <div class="tab-pane" id="share">
-            <h3>Share</h3>
-            <div class="shareContainer">
-                <div class="d-flex justify-content-between"><a target="_blank" rel="noopener" href="https://www.facebook.com/share.php?u={{urlencode(url()->current())}}" class="btn btn-default text-dark"><i class="fab fa-facebook-square"></i> Facebook</a></div>
-                <div class="d-flex justify-content-between"><a target="_blank" rel="noopener" href="https://www.instagram.com/?url={{urlencode(url()->current())}}" class="btn btn-default text-dark"><i class="fab fa-instagram"></i> Instagram</a></div>
-                <div class="d-flex justify-content-between"><a target="_blank" rel="noopener" href="https://twitter.com/share?text={{urlencode($content[0]->title)}}&url={{urlencode(url()->current())}}" class="btn btn-default text-dark"><i class="fab fa-twitter"></i> Twitter</a></div>
-                <div class="d-flex justify-content-between"><a target="_blank" rel="noopener" href="https://lineit.line.me/share/ui?url={{urlencode(url()->current())}}" class="btn btn-default text-dark"><i class="fab fa-line"></i> Line</a></div>
-                <div class="d-flex justify-content-between"><a target="_blank" rel="noopener" href="mailto:?subject={{urlencode($content[0]->title)}}&body={{urlencode(url()->current())}}" class="btn btn-default text-dark"><i class="fa fa-envelope"></i> Email</a></div>
-            </div>
-        </div>
     </div>
 </div>
 @endsection
@@ -78,13 +80,19 @@
     });
     $('#screenToggle').on('click', function() {
         var content = $('.tab-contents')
+        var _this = $(this)
+        
         if(content.hasClass('fullscreen')) {
-            $(this).find('a').html('<i class="fa fa-expand"></i>&nbsp; แสดงเต็มจอ')
             content.removeClass('fullscreen')
+            _this.html('<i class="fa fa-expand"></i>&nbsp; แสดงเต็มจอ')
+            _this.css( 'position', 'static' )
         }
         else {
-            $(this).find('a').html('<i class="fa fa-compress"></i>&nbsp; ย่อขนาด')
             content.addClass('fullscreen')
+            _this.html('<i class="fa fa-compress"></i>&nbsp; ย่อขนาด')
+            _this.css( 'position', 'absolute' )
+            _this.css( 'top', '90px' )
+            _this.css( 'right', '20px' )
         }
         // content.find('iframe').css('height')
     })
