@@ -35,19 +35,18 @@
         <!-- for Admin -->
         @if(!Auth::guest() && Auth::user()->role_id == 1)
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('home') }}"><i class="fa fa-home" aria-hidden="true"></i> หน้าแรก</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('subjects') }}"><span class="fa fa-folder"></span> กลุ่มสาระวิชา</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('contents') }}"><i class="fa fa-book" aria-hidden="true"></i> จัดการเนื้อหา</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('users') }}"><i class="fas fa-users" aria-hidden="true"></i> สมาชิก</a></li>
-            @endif
+        @endif
         </ul>
         
         
         <ul class="nav navbar-nav navbar-right">
             @if (Auth::guest())
-            <li class="nav-item"><a class="nav-link btn btn-link-dark btn-sm text-dark rounded mr-2" href="{{ route('register') }}"><span class="fa fa-user-plus"></span> ลงทะเบียนสมาชิก</a></li>
             <li class="nav-item"><a class="nav-link btn btn-link-warning btn-sm text-warning rounded" href="{{ route('login') }}"><span class="fa fa-sign-in-alt"></span> เข้าสู่ระบบ</a></li>
             @else
             <li class="nav-item"><a class="nav-link btn text-dark" href="{{ route('explore') }}"><svg width="16" height="16" fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M190.4 74.1c5.6-16.8-3.5-34.9-20.2-40.5s-34.9 3.5-40.5 20.2l-128 384c-5.6 16.8 3.5 34.9 20.2 40.5s34.9-3.5 40.5-20.2l128-384zm70.9-41.7c-17.4-2.9-33.9 8.9-36.8 26.3l-64 384c-2.9 17.4 8.9 33.9 26.3 36.8s33.9-8.9 36.8-26.3l64-384c2.9-17.4-8.9-33.9-26.3-36.8zM352 32c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32z"/></svg> คลังความรู้</a></li>
-            <li class="nav-item"><a class="nav-link btn text-dark" href="{{ route('subjects') }}"><span class="fa fa-folder"></span> กลุ่มสาระวิชา</a></li>
 
             
             @if(!Auth::guest() && Auth::user()->role_id == 1)

@@ -13,7 +13,6 @@
 
 Route::get('/', 'WelcomeController@index')->name('welcome');
 Route::get('/privacy', 'PublicPageController@privacy')->name('privacy');
-
 Auth::routes(['verify' => true]);
 Route::get('/view/{id}', 'ViewController@index')->name('view');
 Route::get('/upload', 'UploadController@index')->middleware('verified')->name('upload');
@@ -21,6 +20,10 @@ Route::get('/home', 'HomeController@index')->middleware('verified')->name('home'
 Route::get('/report', 'HomeController@index')->middleware('verified')->name('report');
 Route::get('/banner', 'bannerController@index')->middleware('verified')->name('banner');
 Route::get('/users', 'UserController@index')->middleware('verified')->name('users');
+Route::get('/create-user', 'UserController@create')->middleware('verified')->name('create-user');
+Route::delete('/delete-user/{id}', 'UserController@delete')->middleware('verified')->name('delete-user');
+Route::patch('/update-user', 'UserController@update')->middleware('verified')->name('update-user');
+Route::post('/create-users', 'UserController@createUsers')->middleware('verified')->name('create-users');
 Route::get('/contents', 'bookController@index')->middleware('verified')->name('contents');
 Route::get('/recommend/{id}', 'bookController@recommend')->middleware('verified')->name('recommend');
 Route::get('/un_recommend/{id}', 'bookController@un_recommend')->middleware('verified')->name('un_recommend');

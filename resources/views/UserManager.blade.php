@@ -4,39 +4,45 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="text-left"><i class="fas fa-users"></i> User manager</h1>
+            <div class="h3 text-left"><i class="fas fa-users"></i> User manager</div>
                  <!-- Default panel contents -->
-                 <ul class="nav mt-3">
+                 <ul class="nav mt-5">
                     <li class="nav-item">
-                        <form class="form-inline">
-                            <input type="text" class="form-control mr-3" id="seach-input" placeholder="ค้นหา" name="s" value='{{@request()->get("s")}}'>
-                            <input type="button" value="ค้นหา" class='btn btn-dark'>
+                        <form class="input-group rounded-xl">
+                            <input type="text" class="form-control rounded-left" id="seach-input" placeholder="ค้นหา" name="s" value='{{@request()->get("s")}}'>
+                            <div class="input-group-append">
+                                <input type="submit" value="🔍 ค้นหา" class='btn btn-dark'>
+                            </div>
                         </form>
                     </li>
+                    <li class="nav-item"><a href="/create-user" class="ml-2 nav-link btn btn-warning btn-outline-dark rounded-xl btn-sm"><i class="fas fa-plus-circle"></i> สร้างผู้ใช้ใหม่</a></li>
                 </ul>
-                <table class="table table-striped table-hover border p-5 shadow mt-3 round">
+                <table class="table table-striped table-hover p-5 shadow mt-5 rounded">
                     <thead>
                         <tr>
                             <th>Fullname</th>
                             <th>Email</th>
+                            <th>Initial Password</th>
                             <th>Organization</th>
                             <th>Verified</th>
                             <th>Last Modify</th>
-                            <!-- <th>Actions</th> -->
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                     @foreach($users as $u)
-                        <tr>
+                        <tr data-id="{{$u->id}}">
                             <td><a href="/shelf/{{base64_encode($u->email)}}">{{$u->name}}</a></td>
                             <td>{{$u->email}}</td>
+                            <td>{{$u->init_password}}</td>
                             <td>{{$u->organization}}</td>
-                            <td><span class="text-{{$u->email_verified == 1 ? 'success':'warning'}}">{{$u->email_verified == 1 ? 'Verified': 'Not verify'}}</span></td>
+                            <td><span class="text-{{$u->email_verified == 1 ? 'success':'danger'}}">{{$u->email_verified == 1 ? 'ปกติ': 'ห้าม'}}</span></td>
                             <td>{{$u->created_at}}</td>
-                            <!-- <td>
-                                <button class="btn btn-info disabled"><i class="fas fa-pen"></i></button>
-                                <button class="btn btn-danger disabled"><i class="fa fa-trash"></i></button>
-                            </td> -->
+                            <td>
+                                <button class="btn btn-outline-dark btn-sm btn-reset" title="reset password" onclick="resetPassword({{$u->id}})"><i class="fas fa-history"></i> คืนค่ารหัสผ่าน</button>
+                                <button class="btn btn-sm {{$u->email_verified != 1 ? 'btn-outline-primary':'btn-outline-dark'}} btn-ban" title="ban user" onclick="banUser({{$u->id}}, {{$u->email_verified == 1 ? '0':'1'}})"><i class="fas fa-ban"></i> {{$u->email_verified == 1 ? 'แบน':'ยกเลิก'}}</button>
+                                <button class="btn btn-outline-dark btn-delete btn-sm" title="delete user" data-id="{{$u->id}}"><i class="fa fa-trash"></i> ลบ</button>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -44,7 +50,84 @@
                 <div class="d-flex justify-content-center flex-row mt-5">
                 {{ $users->links() }}
                 </div>
-            
+            <script>
+                $(document).ready(function(){
+                    $('.btn-delete').click(function(){
+                        if(confirm('Are you sure to delete this user?')){
+                            var id = $(this).data('id');
+                            $.ajax({
+                                url: '/delete-user/'+id,
+                                type: 'DELETE',
+                                data: {
+                                    _token: '{{csrf_token()}}'
+                                },
+                                success: (response) => {
+                                    if (response.status == 'success') {
+                                        $("tr[data-id='"+id+"']").remove();
+                                    } else {
+                                        alert("Something went wrong")
+                                    }
+                                },
+                                error: (response) => {
+                                    console.log(response)
+                                    // alert(response.status);
+                                }
+                            });
+                        }
+                    });
+                });
+
+                const resetPassword = (id) => {
+                        if(confirm('Are you sure to reset password to reset password?')){
+                            $.ajax({
+                                url: '/update-user',
+                                type: 'PATCH',
+                                data: {
+                                    _token: '{{csrf_token()}}',
+                                    id: id,
+                                    action: 'reset'
+                                },
+                                success: (response) => {
+                                    if (response.status == 'success') {
+                                        window.location.reload();
+                                    } else {
+                                        alert("Something went wrong")
+                                    }
+                                },
+                                error: (response) => {
+                                    console.log(response)
+                                    // alert(response.status);
+                                }
+                            });
+                        }
+                    }
+
+                const banUser = (id, ban) => {
+                        if(confirm('Are you sure?')){
+                            $.ajax({
+                                url: '/update-user',
+                                type: 'PATCH',
+                                data: {
+                                    _token: '{{csrf_token()}}',
+                                    status: ban,
+                                    id: id,
+                                    action: 'ban'
+                                },
+                                success: (response) => {
+                                    if (response.status == 'success') {
+                                        window.location.reload();
+                                    } else {
+                                        alert("Something went wrong")
+                                    }
+                                },
+                                error: (response) => {
+                                    console.log(response)
+                                    // alert(response.status);
+                                }
+                            });
+                        }
+                    }
+            </script>
         </div>
     </div>
 </div>

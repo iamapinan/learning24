@@ -1,6 +1,8 @@
 @extends('layouts.app')
-
 @section('content')
+<script>
+    window.location.href='/login'
+</script>
 <div class="container">
     <div class="row">
         <div class="col-md-8 mx-auto mt-5">

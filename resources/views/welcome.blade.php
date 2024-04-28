@@ -32,7 +32,6 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     @if (Auth::guest())
-                    <li class="nav-item"><a class="nav-link btn btn-link-dark btn-sm text-dark rounded mr-2" href="{{ route('register') }}"><span class="fa fa-user-plus"></span> ลงทะเบียนสมาชิก</a></li>
                     <li class="nav-item"><a class="nav-link btn btn-link-warning btn-sm text-warning rounded" href="{{ route('login') }}"><span class="fa fa-sign-in-alt"></span> เข้าสู่ระบบ</a></li>
                     @else
                     
@@ -78,8 +77,6 @@
                         </div>
                         <div class="text-left mt-5">
                             @if(Auth::guest())
-                            <a href="{{ url('/register') }}" class="btn btn-outline-dark btn-md rounded-pill px-5 mr-3">
-                                <i class="fa fa-user-plus"></i> สมัครสมาชิกใหม่</a>
                             <a href="{{ url('/login') }}" class="btn btn-warning btn-md rounded-pill px-5">
                                 <i class="fa fa-sign-in-alt"></i> เข้าสู่ระบบ</a>
                             @else

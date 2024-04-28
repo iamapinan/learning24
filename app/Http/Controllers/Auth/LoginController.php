@@ -9,6 +9,7 @@ use Socialite;
 use App\User;
 use App\SocialAccount;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -125,19 +126,24 @@ class LoginController extends Controller
             $this->fireLockoutEvent($request);
             return $this->sendLockoutResponse($request);
         }
-
+        
         if ($this->attemptLogin($request)) {
-            // if has redirectTo page
-            if (!empty($request->redirectTo)) {
-                return redirect($request->redirectTo);
-            }
-            // if user not admin redirect to explore page
-            // else redirect to home page
-            if (!auth()->user()->is_admin) {
-                return redirect('/explore');
+            
+            if (auth()->user()->email_verified == 1) {
+                // if has redirectTo page
+                if (!empty($request->redirectTo)) {
+                    return redirect($request->redirectTo);
+                }
+                // if user not admin redirect to explore page
+                // else redirect to home page
+                if (!auth()->user()->is_admin) {
+                    return redirect('/explore');
+                }
+            } else {
+                Auth::logout();
+                return $this->sendFailedLoginResponse($request, "บัญชีถูกระงับการใช้งาน");
             }
             
-            return $this->sendLoginResponse($request);
         }
 
         $this->incrementLoginAttempts($request);

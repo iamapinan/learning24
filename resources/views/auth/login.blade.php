@@ -44,18 +44,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-8 offset-md-4 mb-3">
-                            <a class="btn-link" href="{{ route('password.request') }}">
-                                ลืมรหัสผ่าน?
-                            </a>
-                        </div>
+                        
                         <div class="col-md-8 offset-md-4">
                             <button type="submit" class="btn btn-warning mr-3 rounded-pill">
                                 เข้าสู่ระบบ
                             </button>
-                            <a href="{{ route('register') }}" type="submit" class="btn btn-light rounded-pill">
-                                ลงทะเบียนสมาชิก
-                            </a>
                         </div>
                     </div>
                 </form>
