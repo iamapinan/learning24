@@ -48,10 +48,10 @@ class ExploreController extends Controller
         ->when(isset($_GET['subject']) && $_GET['subject'] != 0, function ($query) {
             return $query->where('sub_cat', $_GET['subject']);
         })
-        ->when(isset($_GET['level']), function ($query) {
+        ->when(isset($_GET['level'] && $_GET['level'] != ''), function ($query) {
             return $query->where('grade', $_GET['level']);
         })
-        ->when(isset($_GET['search']), function ($query) {
+        ->when(isset($_GET['search'] && $_GET['search'] != ''), function ($query) {
             return $query->where('title', 'like', '%'.$_GET['search'].'%');
         })
         ->orderBy($sort, 'DESC')
