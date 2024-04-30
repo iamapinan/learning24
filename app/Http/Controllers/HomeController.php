@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\BookModel;
 
 class HomeController extends Controller
 {
@@ -18,6 +19,7 @@ class HomeController extends Controller
         'fileUrl', 
         'group_id', 
         'cat_id', 
+        'topic_id',
         'view', 
         'sub_cat', 
         'grade', 
@@ -43,12 +45,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $books = DB::table('all_book_data')
-        ->select($this->fields)
-        ->where( 'user_id', Auth::id() )
-        ->orderBy('id', 'DESC')
-        ->paginate(4);
+        $contents_query = BookModel::Query()->where('isPublic', 1)
+        ->orderBy('ID', 'DESC')
+        ->paginate(20);
         
-        return view('home')->with('books',$books);
+        return view('home')->with('contents',$contents_query);
     }
 }

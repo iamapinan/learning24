@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="h3 text-left"><i class="fas fa-users"></i> User manager</div>
@@ -17,11 +17,12 @@
                     </li>
                     <li class="nav-item"><a href="/create-user" class="ml-2 nav-link btn btn-warning btn-outline-dark rounded-xl btn-sm"><i class="fas fa-plus-circle"></i> สร้างผู้ใช้ใหม่</a></li>
                 </ul>
-                <table class="table table-striped table-hover p-5 shadow mt-5 rounded">
+                <table class="table table-striped table-hover p-3 shadow mt-5 rounded">
                     <thead>
                         <tr>
                             <th>Fullname</th>
                             <th>Email</th>
+                            <th>Role</th>
                             <th>Initial Password</th>
                             <th>Organization</th>
                             <th>Verified</th>
@@ -34,14 +35,17 @@
                         <tr data-id="{{$u->id}}">
                             <td><a href="/shelf/{{base64_encode($u->email)}}">{{$u->name}}</a></td>
                             <td>{{$u->email}}</td>
+                            <td>{{$u->role_id == 1 ? 'แอดมิน' : 'ผู้ใช้ทั่วไป'}}</td>
                             <td>{{$u->init_password}}</td>
                             <td>{{$u->organization}}</td>
                             <td><span class="text-{{$u->email_verified == 1 ? 'success':'danger'}}">{{$u->email_verified == 1 ? 'ปกติ': 'ห้าม'}}</span></td>
                             <td>{{$u->created_at}}</td>
                             <td>
-                                <button class="btn btn-outline-dark btn-sm btn-reset" title="reset password" onclick="resetPassword({{$u->id}})"><i class="fas fa-history"></i> คืนค่ารหัสผ่าน</button>
+                                <button class="btn btn-outline-dark btn-sm btn-reset" title="reset password" onclick="resetPassword({{$u->id}})"><i class="fas fa-history"></i> รีเซ็ทรหัสผ่าน</button>
+                                @if($u->role_id==2)
                                 <button class="btn btn-sm {{$u->email_verified != 1 ? 'btn-outline-primary':'btn-outline-dark'}} btn-ban" title="ban user" onclick="banUser({{$u->id}}, {{$u->email_verified == 1 ? '0':'1'}})"><i class="fas fa-ban"></i> {{$u->email_verified == 1 ? 'แบน':'ยกเลิก'}}</button>
                                 <button class="btn btn-outline-dark btn-delete btn-sm" title="delete user" data-id="{{$u->id}}"><i class="fa fa-trash"></i> ลบ</button>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
