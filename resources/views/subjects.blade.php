@@ -8,7 +8,7 @@
         </div>
         <ul class="row d-flex flex-row list-unstyled justify-content-center">
             @foreach($subjects as $subject)
-                <a class="col-3 px-3 mr-3 py-3 btn btn-light rounded-pill mt-3" href="/subject/{{ $subject->id }}"><li>{{ $subject->title }}</li></a>
+                <a class="col-3 px-3 mr-3 py-3 btn btn-light rounded-xl mt-3" href="/subject/{{ $subject->id }}"><li>{{ $subject->title }}</li></a>
             @endforeach
         </ul>
     </div>

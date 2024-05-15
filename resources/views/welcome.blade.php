@@ -86,12 +86,12 @@
                         </div>
                     </div>
                 </div>
-                <h3 class="position-relative pl-3 pt-3 border-bottom font-weight-bold"><span class="before-line"></span>เนื้อหาครอบคลุ่ม 8 กลุ่มสาระ และอื่นๆ ตั้งแต่ ม.1-ม.6</h3>
+                <h3 class="position-relative pl-3 pt-3 border-bottom font-weight-bold">เนื้อหาครอบคลุ่ม 8 กลุ่มสาระ และอื่นๆ ตั้งแต่ ม.1-ม.6</h3>
                 <div class="d-flex flex-column justify-content-center my-5">
                     
                     <div class="row d-flex flex-row  justify-content-center w-100 mb-3 text-center">
                         @foreach($subcats as $subcat)
-                        <a href="{{url('/explore?subject=' . $subcat->id)}}" class="col-2 col-sm-3 btn rounded-pill bg-light mx-3 my-3 p-3">
+                        <a href="{{url('/explore?subject=' . $subcat->id)}}" class="btn rounded-xl bg-light mx-3 my-3 p-3">
                             {{$subcat->title}}
                         </a>
                         @endforeach

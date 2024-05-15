@@ -26,9 +26,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if($request->s !== '')
-            $data = DB::table('users')->where('role_id', 2)->where('name', 'like', '%' . $request->s . '%')->select()->orderBy('id', 'DESC')->paginate(20);
+            $data = DB::table('users')->where('name', 'like', '%' . $request->s . '%')->select()->orderBy('id', 'DESC')->paginate(20);
         else
-            $data = DB::table('users')->where('role_id', 2)->select()->orderBy('id', 'DESC')->paginate(20);
+            $data = DB::table('users')->select()->orderBy('id', 'DESC')->paginate(20);
 
         return view('UserManager')->with('users', $data);
     }

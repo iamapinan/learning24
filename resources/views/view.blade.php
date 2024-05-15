@@ -47,15 +47,15 @@
             <iframe src="https://www.youtube.com/embed/{{explode('v=', $content->video_url)[1]}}" frameborder="0" class="w-100"></iframe>
         @endif
         </div>
-        <div class="tab-pane" id="about">
-            <h3>{{$content->title}}</h3>
-            <div class="text-dark">{{$content->description}}</div>
+        <div class="tab-pane p-5" id="about">
+            <h3 class="text-white">{{$content->title}}</h3>
+            <div class="text-white">{{$content->description}}</div>
             <p class="ml-3">
                 @if(!empty($content->gradetitle))
-                <div class="text-secondary ml-3"><i class="fa fa-graduation-cap"></i> {{$content->gradetitle}} </div>
+                <div class="text-white ml-3"><i class="fa fa-graduation-cap"></i> {{$content->gradetitle}} </div>
                 @endif
                 @if(!empty($content->subject))
-                <div class="text-secondary ml-3"><i class="fa fa-folder"></i> {{$content->subject}} > {{$content->topictitle}} </div>
+                <div class="text-white ml-3"><i class="fa fa-folder"></i> {{$content->subject}} > {{$content->topictitle}} </div>
                 @endif
             </p>
         </div>

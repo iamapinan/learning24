@@ -22,8 +22,10 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN chown -R www-data:www-data /var/www
+RUN chmod 777 -R /var/www/storage
+RUN chmod 777 -R /var/www/bootstrap/cache
 # Set working directory
 WORKDIR /var/www
 COPY . /var/www/
 
-USER www-data
+USER root

@@ -40,25 +40,42 @@ class ExploreController extends Controller
         // get subject and level
         $levels = DB::table('grade')->get();
         $subjects = DB::table('subcat')->get();
+        $title = 'เนื้อหาทั้งหมด';
 
-        $title = isset($_GET['search']) ? 'ผลการค้นหา ' . $_GET['search'] : null;
+        // set title
+        if(isset($_GET['level']) && $_GET['level'] != '' && $_GET['level'] != null)
+        {
+            $current_level = $levels->toArray();
+            $current_level = array_values(array_filter($current_level, function($level) {
+                return $level->grade_id == $_GET['level'];
+            }))[0]->title;
+
+            $title = $current_level . ' / ';
+        } 
+
+        if(isset($_GET['subject']) && $_GET['subject'] != 0 && $_GET['subject'] != null)
+        {
+            $current_subject = $subjects->toArray()[$_GET['subject']-1]->title;
+            $title .= $current_subject;
+        } 
+
+        $title = isset($_GET['search']) && $_GET['search'] != null ? 'ผลการค้นหา '.$_GET['search'] : $title;
         $sort = isset($_GET['sort']) && $_GET['sort'] == 'alphabet' ? 'title' : 'id';
         
         $contents_query = BookModel::Query()->where('isPublic', 1)
-        ->when(isset($_GET['subject']) && $_GET['subject'] != 0, function ($query) {
+        ->when(isset($_GET['subject']) && $_GET['subject'] != 0 && $_GET['subject'] != null, function ($query) {
             return $query->where('sub_cat', $_GET['subject']);
         })
-        ->when(isset($_GET['level']), function ($query) {
+        ->when(isset($_GET['level']) && $_GET['level'] != '', function ($query) {
             return $query->where('grade', $_GET['level']);
         })
-        ->when(isset($_GET['search']), function ($query) {
+        ->when(isset($_GET['search']) && $_GET['search'] != null, function ($query) {
             return $query->where('title', 'like', '%'.$_GET['search'].'%');
         })
         ->orderBy($sort, 'DESC')
         ->paginate(20);
-    
 
-        return view('explore', [
+        return view('explore')->with([
             'title' => $title,
             'levels'=> $levels,
             'subjects'=> $subjects,
@@ -67,3 +84,4 @@ class ExploreController extends Controller
         ]);
     }
 }
+
