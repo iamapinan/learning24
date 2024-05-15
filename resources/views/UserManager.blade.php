@@ -17,7 +17,7 @@
                     </li>
                     <li class="nav-item"><a href="/create-user" class="ml-2 nav-link btn btn-warning btn-outline-dark rounded-xl btn-sm"><i class="fas fa-plus-circle"></i> สร้างผู้ใช้ใหม่</a></li>
                 </ul>
-                <table class="table table-striped table-hover p-5 shadow mt-5 rounded">
+                <table class="table table-striped table-hover p-3 shadow mt-5 rounded">
                     <thead>
                         <tr>
                             <th>Fullname</th>
