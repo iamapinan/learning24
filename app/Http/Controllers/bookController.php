@@ -18,7 +18,7 @@ class bookController extends Controller
         'user_id', 
         'isPublic', 
         'fileUrl', 
-        'group_id', 
+        'org_id', 
         'cat_id',
         'topic_id',
         'view', 
@@ -38,7 +38,7 @@ class bookController extends Controller
     public function index(){
 
         $books = DB::table('all_book_data')
-        ->select(DB::raw('all_book_data.id, all_book_data.title, all_book_data.description, all_book_data.cover_file, all_book_data.author, all_book_data.user_id, all_book_data.isPublic, all_book_data.fileUrl, all_book_data.group_id, all_book_data.cat_id, all_book_data.topic_id, all_book_data.view, all_book_data.sub_cat, all_book_data.grade, all_book_data.subject, all_book_data.gradetitle, all_book_data.link_test, all_book_data.recommend, topics.title as topictitle'))
+        ->select(DB::raw('all_book_data.id, all_book_data.title, all_book_data.description, all_book_data.cover_file, all_book_data.author, all_book_data.user_id, all_book_data.isPublic, all_book_data.fileUrl, all_book_data.org_id, all_book_data.cat_id, all_book_data.topic_id, all_book_data.view, all_book_data.sub_cat, all_book_data.grade, all_book_data.subject, all_book_data.gradetitle, all_book_data.link_test, all_book_data.recommend, topics.title as topictitle'))
         ->leftJoin('topics', 'all_book_data.topic_id', '=', 'topics.id')
         ->orderBy('id', 'DESC')
         ->paginate(20);

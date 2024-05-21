@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 mx-auto">
             <div class="h3 text-left"><i class="fas fa-users"></i> User manager</div>
                  <!-- Default panel contents -->
                  <ul class="nav mt-5">
@@ -15,8 +15,8 @@
                             </div>
                         </form>
                     </li>
-                    <li class="nav-item"><a href="/create-user" class="ml-2 nav-link btn btn-warning btn-outline-dark rounded-xl btn-sm"><i class="fas fa-plus-circle"></i> สร้างผู้ใช้ใหม่</a></li>
-                    <li class="nav-item"><a href="/create-org" class="ml-2 nav-link btn btn-info btn-outline-dark rounded-xl btn-sm"><i class="fas fa-plus"></i> สร้างองค์กร</a></li>
+                    <li class="nav-item"><a href="/create-user" class="ml-2 nav-link btn btn-warning rounded-xl btn-sm"><i class="fas fa-plus-circle"></i> สร้างผู้ใช้ใหม่</a></li>
+                    <li class="nav-item"><a href="/org-manage" class="ml-2 nav-link btn btn-info rounded-xl btn-sm"><i class="fas fa-plus"></i> สร้างองค์กร</a></li>
                 </ul>
                 <table class="table table-striped table-hover p-3 shadow mt-5 rounded">
                     <thead>
@@ -87,7 +87,7 @@
                     @foreach($org as $o)
                     <option value="{{$o->id}}">{{$o->title}}</option>
                     @endforeach
-                    </select><a onclick="update_org(${id})"><i class="fa fa-check-circle"></a>`)
+                    </select><a onclick="update_org(${id})"> <i class="fa fa-check-circle"></a>`)
                 }
 
                 const update_org = (id) => {

@@ -19,6 +19,11 @@ Route::get('/upload', 'UploadController@index')->middleware('verified')->name('u
 Route::get('/home', 'HomeController@index')->middleware('verified')->name('home');
 Route::get('/report', 'HomeController@index')->middleware('verified')->name('report');
 Route::get('/banner', 'bannerController@index')->middleware('verified')->name('banner');
+Route::get('/org/{id}', 'ExploreController@org')->name('org');
+Route::get('/org-manage', 'OrgController@index')->middleware('verified')->name('org-manager');
+Route::get('/org-create', 'OrgController@create')->middleware('verified')->name('org-create');
+Route::post('/org-store', 'OrgController@store')->middleware('verified')->name('org-store');
+Route::patch('/org-update', 'OrgController@update')->middleware('verified')->name('org-update');
 Route::get('/users', 'UserController@index')->middleware('verified')->name('users');
 Route::get('/create-user', 'UserController@create')->middleware('verified')->name('create-user');
 Route::delete('/delete-user/{id}', 'UserController@delete')->middleware('verified')->name('delete-user');
@@ -28,7 +33,6 @@ Route::get('/contents', 'bookController@index')->middleware('verified')->name('c
 Route::get('/recommend/{id}', 'bookController@recommend')->middleware('verified')->name('recommend');
 Route::get('/un_recommend/{id}', 'bookController@un_recommend')->middleware('verified')->name('un_recommend');
 Route::get('/explore', 'ExploreController@index')->name('explore');
-Route::get('/org/{id}', 'ExploreController@org')->name('org');
 Route::get('/books', 'bookController@index')->middleware('verified')->name('books');
 Route::get('/subjects', 'bookController@subjects')->middleware('verified')->name('subjects');
 Route::get('/subject/{id}', 'bookController@topics')->middleware('verified')->name('subject');

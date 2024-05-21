@@ -37,7 +37,8 @@
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('home') }}"><i class="fa fa-home" aria-hidden="true"></i> หน้าแรก</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('subjects') }}"><span class="fa fa-folder"></span> กลุ่มสาระวิชา</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('contents') }}"><i class="fa fa-book" aria-hidden="true"></i> จัดการเนื้อหา</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('users') }}"><i class="fas fa-users" aria-hidden="true"></i> สมาชิก</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('users') }}"><i class="fas fa-users" aria-hidden="true"></i> จัดการสมาชิก</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('org-manager') }}"><i class="fas fa-building" aria-hidden="true"></i> จัดการองค์กร</a></li>
         @endif
         </ul>
         
