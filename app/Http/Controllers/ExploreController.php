@@ -87,10 +87,15 @@ class ExploreController extends Controller
 
     public function org($id){
         // check user is login
-        if (!Auth::check() && Auth::user()->user_org_id == null&&Auth::user()->user_org_id!=$id) {
+        if (!Auth::check()) {
             return redirect('/login?redirectTo=/org/'. $id);
         }
         
+        if(Auth::user()->user_org_id == null || Auth::user()->user_org_id != $id) {
+            
+            return redirect('/explore');
+        }
+
         $organization = DB::table('organization')->where('id', Auth::user()->user_org_id)->first();
         
         // get subject and level
