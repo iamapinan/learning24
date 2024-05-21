@@ -51,16 +51,12 @@
                                     <a class="dropdown-item {{isset($_GET['sort']) && $_GET['sort'] == 'numberic' ? 'active' : ''}}" href="/explore?sort=numberic&subject={{@$_GET['subject']}}&level={{@$_GET['level']}}&search={{@$_GET['search']}}">ตามลำดับเริ่มต้น</a>
                                 </div>
                             </div>
-			</div>
+			            </div>
 
                         <div class="d-flex flex-row justify-content-end h-25 pb-3">
                             <div class="h5 col pl-5 text-lg-left text-white text-shadow align-self-end"><i class="fa fa-folder text-yellow"></i> {{$title}}</div>
                         </div>
                         
-                        <div class="d-flex flex-row justify-content-end h-25 pb-3">
-                            <div class="h5 col pl-5 text-lg-left text-white text-shadow align-self-end"><i class="fa fa-folder text-yellow"></i> {{$title}}
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!-- Default panel contents -->
