@@ -29,8 +29,8 @@ class UserController extends Controller
             $data = DB::table('users')->where('name', 'like', '%' . $request->s . '%')->select()->orderBy('id', 'DESC')->paginate(20);
         else
             $data = DB::table('users')->select()->orderBy('id', 'DESC')->paginate(20);
-
-        return view('UserManager')->with('users', $data);
+        $org = DB::table('organization')->get();
+        return view('UserManager')->with(['users' => $data, 'org' => $org]);
     }
 
     public function profile() {
@@ -96,6 +96,16 @@ class UserController extends Controller
             DB::table('users')->where('id', $id )
               ->update([
                   'email_verified' => $status
+                ]);
+            return response()->json(['status' => 'success']);
+        }
+
+        if( $action == 'org' ) {
+            $org_data = DB::table('organization')->where('id', $request->input('org_value'))->first();
+            DB::table('users')->where('id', $id )
+              ->update([
+                  'organization' => $org_data->title,
+                  'user_org_id' => $request->input('org_value')
                 ]);
             return response()->json(['status' => 'success']);
         }

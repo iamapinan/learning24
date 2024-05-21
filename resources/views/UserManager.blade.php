@@ -38,7 +38,7 @@
 			    <td>{{$u->email}}</td>
 			    <td>{{$u->role_id == 1 ? 'แอดมิน' : 'ผู้ใช้ทั่วไป'}}</td>
                             <td>{{$u->init_password}}</td>
-                            <td>{{$u->organization}}</td>
+                            <td id="org_{{$u->id}}">{{$u->organization}} <a onclick="edit_org({{$u->id}})" class="badge badge-warning"><i class="fa fa-pen"></i></a></td>
                             <td><span class="text-{{$u->email_verified == 1 ? 'success':'danger'}}">{{$u->email_verified == 1 ? 'ปกติ': 'ห้าม'}}</span></td>
                             <td>{{$u->created_at}}</td>
                             <td>
@@ -81,6 +81,39 @@
                         }
                     });
                 });
+
+                const edit_org = (id) => {
+                    $('#org_' + id).html(`<select id="org_${id}_value">
+                    @foreach($org as $o)
+                    <option value="{{$o->id}}">{{$o->title}}</option>
+                    @endforeach
+                    </select><a onclick="update_org(${id})"><i class="fa fa-check-circle"></a>`)
+                }
+
+                const update_org = (id) => {
+                    let selected_org = $('#org_'+id+'_value').val();
+                    $.ajax({
+                        url: '/update-user',
+                        type: 'PATCH',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            org_value: selected_org,
+                            action: 'org',
+                            id: id
+                        },
+                        success: (response) => {
+                            if (response.status == 'success') {
+                                window.location.reload();
+                            } else {
+                                alert("Something went wrong")
+                            }
+                        },
+                        error: (response) => {
+                            console.log(response)
+                            // alert(response.status);
+                        }
+                    });
+                }
 
                 const resetPassword = (id) => {
                         if(confirm('Are you sure to reset password to reset password?')){
