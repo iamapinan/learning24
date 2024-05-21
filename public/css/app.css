@@ -103,7 +103,6 @@ b {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height: 340px;
 }
 @media only screen and (max-width: 600px) {
     .shelf_cover {

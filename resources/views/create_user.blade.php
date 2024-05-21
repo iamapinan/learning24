@@ -8,11 +8,16 @@
 
     <div class="row">
         <div class="col-6 col-lg-6 col-sm-10 mx-auto mt-5">
-            <form action="/topic/store" method="post" id="create_user_form">
+            <form action="/user/store" method="post" id="create_user_form">
                 @csrf
                 <div class="form-group">
-                    <label for="organization">ชื่อหน่วยงาน/โรงเรียน</label>
-                    <input type="text" name="organization" id="organization" placeholder="ชื่อหน่วยงาน/โรงเรียน" class="form-control rounded-pill" required>
+                    <label for="organization">หน่วยงาน/โรงเรียน</label>
+                    <select name="organization" id="organization" class="form-control rounded-pill" required>
+                        <option value="0">ส่วนกลาง</option>
+                        @foreach($org as $o)
+                        <option value="{{$o->id}}">{{$o->title}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="prefix">คำขึ้นต้นของชื่อผู้ใช้งาน</label>

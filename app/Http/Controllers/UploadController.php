@@ -115,13 +115,11 @@ class UploadController extends Controller
         }
 
         $userid = ($request->userid == '') ? Auth::user()->id : $request->userid;
-        $group = 1;
+        $group = Auth::user()->user_org_id == null ? 1 : Auth::user()->user_org_id;
         $topic = $request->topic;
         $sub = $request->sub;
         $grade = $request->grade;
-
         $link_test = $request->attachment;
-
         $bookdata = array_combine($this->fieldUpload, [
             $lastBookID, 
             $request->filename, 

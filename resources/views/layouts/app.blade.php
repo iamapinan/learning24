@@ -46,23 +46,36 @@
             @if (Auth::guest())
             <li class="nav-item"><a class="nav-link btn btn-link-warning btn-sm text-warning rounded" href="{{ route('login') }}"><span class="fa fa-sign-in-alt"></span> เข้าสู่ระบบ</a></li>
             @else
-            <li class="nav-item"><a class="nav-link btn text-dark" href="{{ route('explore') }}"><svg width="16" height="16" fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M190.4 74.1c5.6-16.8-3.5-34.9-20.2-40.5s-34.9 3.5-40.5 20.2l-128 384c-5.6 16.8 3.5 34.9 20.2 40.5s34.9-3.5 40.5-20.2l128-384zm70.9-41.7c-17.4-2.9-33.9 8.9-36.8 26.3l-64 384c-2.9 17.4 8.9 33.9 26.3 36.8s33.9-8.9 36.8-26.3l64-384c2.9-17.4-8.9-33.9-26.3-36.8zM352 32c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32z"/></svg> คลังความรู้</a></li>
-
-            
-            @if(!Auth::guest() && Auth::user()->role_id == 1)
-            <li class="nav-item"><a class="nav-link btn btn-warning btn-sm text-dark rounded-pill px-3" href="{{ route('upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> อัพโหลด</a></li>
             <li class="nav-item">
-                <a href="#" class="nav-link text-warning" id="userNavmenu" role="button">
-                    <i class="fa fa-star"></i> {{ Auth::user()->name }}
+                <a class="nav-link btn text-dark" href="{{ route('explore') }}">
+                    <i class="fa fa-book-open"></i>
+                    คลังความรู้ส่วนกลาง
                 </a>
             </li>
-            @else
+            @if (Auth::user()->user_org_id != null)
             <li class="nav-item">
-                <a href="#" class="nav-link text-secondary" id="userNavmenu" role="button">
-                    <i class="fa fa-user-circle"></i> {{ Auth::user()->name }}
+                <a class="nav-link btn text-dark" href="/org/{{Auth::user()->user_org_id}}">
+                    <i class="fa fa-building"></i>
+                    สำหรับองค์กร
                 </a>
             </li>
             @endif
+
+            
+                @if(!Auth::guest() && Auth::user()->role_id == 1)
+                <li class="nav-item"><a class="nav-link btn btn-warning btn-sm text-dark rounded-pill px-3" href="{{ route('upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> อัพโหลด</a></li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-dark" id="userNavmenu" role="button">
+                        <i class="fa fa-user-circle"></i> {{ Auth::user()->name }}
+                    </a>
+                </li>
+                @else
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-secondary" id="userNavmenu" role="button">
+                        <i class="fa fa-user-circle"></i> {{ Auth::user()->name }}
+                    </a>
+                </li>
+                @endif
             <li class="nav-item">
                 <a class="nav-link text-dark" role="button" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt"></i> Logout

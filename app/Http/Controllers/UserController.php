@@ -42,17 +42,18 @@ class UserController extends Controller
         $user = Auth::user();
         if($user->role_id != 1)
             return redirect('/');
+        $organization = DB::table('organization')->get();
 
-        return view('create_user');
+        return view('create_user')->with(['org' => $organization]);
     }
 
     public function createUsers(Request $request) {
         // loop to create user to database.
         $number_of_user = $request->input('number');
         $prefix = $request->input('prefix');
-        $organization = $request->input('organization');
         $role = $request->input('role');
         $current_date_time = now();
+        $org = DB::table('organization')->where('id', $request->input('organization'))->first();
 
         for($i = 0; $i < $number_of_user; $i++) {
             $password = str_random(8);
@@ -62,7 +63,8 @@ class UserController extends Controller
                 'email' => $prefix . '_' . $random_name . '@learning24.xyz',
                 'init_password' => $password, // for reset password purpose
                 'password' => bcrypt($password),
-                'organization' => $organization,
+                'organization' => $org->title,
+                'user_org_id' => $org->id,
                 'role_id' => $role,
                 'birthday' => '0000-00-00', 
                 'email_verified_at' => '0000-00-00 00:00:00', 

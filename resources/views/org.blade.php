@@ -4,16 +4,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h3>เนื้อหาส่วนกลาง</h3>
-            <div class="my-3 rounded-xl d-flex flex-column shelf_cover bg-opacity-50" style="background-image: url(/images/shelf.jpg);">
-                <div class="page-cover d-flex flex-column h-100 py-3 px-5">
+            <h3><i class="fa fa-building"></i> {{@$org->title}}</h3>
+            <div class="my-3 rounded-xl d-flex flex-column shelf_cover bg-opacity-50" style="background: linear-gradient(360deg, #c69d3094, #0091c4c9) !important;background-image: url(/images/shelf.jpg);">
+                <div class="d-flex flex-column h-100 py-3 px-5">
                     <!-- Page title -->
                     <div class="d-flex flex-row justify-content-end mb-2 mt-3">
                         <div class="h5 col text-lg-left text-white text-shadow"><i class="fa fa-folder text-yellow"></i> {{$title}}</div>
                     </div>
                     <div class="d-flex flex-row align-items-end w-100 mb-3">
                         <!-- search form -->
-                        <form class="form-inline my-2 my-lg-0 w-100 justify-content-center" method="GET" action="/explore" >
+                        <form class="form-inline my-2 my-lg-0 w-100 justify-content-center" method="GET" action="/org/1" >
                             <div class="input-group w-100">
                                 <input type="hidden" name="subject" value="{{@$_GET['subject']}}">
                                 <input type="hidden" name="level" value="{{@$_GET['level']}}">
@@ -28,32 +28,32 @@
                     </div>
                     <div id="subjects" class="d-flex flex-row justify-content-start w-100 mx-auto">
                         <div class="dropdown mr-3">
-                            <a href="/explore?subject=0&level={{@$_GET['level']}}&sort={{@$_GET['sort']}}&search={{@$_GET['search']}}" class="btn btn-secondary btn-sm rounded-pill dropdown-toggle" value="{{@$_GET['subject']}}" type="button" data-toggle="dropdown" aria-expanded="false">
+                            <a href="/org/1?subject=0&level={{@$_GET['level']}}&sort={{@$_GET['sort']}}&search={{@$_GET['search']}}" class="btn btn-light btn-sm rounded-pill dropdown-toggle" value="{{@$_GET['subject']}}" type="button" data-toggle="dropdown" aria-expanded="false">
                                 ทุกกลุ่มสาระ
                             </a>
                             <div class="dropdown-menu">
                             @foreach($subjects as $subject)
-                                <a class="dropdown-item {{isset($_GET['subject']) && $_GET['subject'] == $subject->id ? 'active' : ''}}" href="/explore?subject={{$subject->id}}&level={{@$_GET['level']}}&sort={{@$_GET['sort']}}&search={{@$_GET['search']}}">{{$subject->title}}</a>
+                                <a class="dropdown-item {{isset($_GET['subject']) && $_GET['subject'] == $subject->id ? 'active' : ''}}" href="/org/1?subject={{$subject->id}}&level={{@$_GET['level']}}&sort={{@$_GET['sort']}}&search={{@$_GET['search']}}">{{$subject->title}}</a>
                             @endforeach
                             </div>
                         </div>
                         <div class="dropdown mr-3">
-                            <button class="btn btn-secondary btn-sm rounded-pill dropdown-toggle" value="{{@$_GET['level']}}" type="button" data-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-light btn-sm rounded-pill dropdown-toggle" value="{{@$_GET['level']}}" type="button" data-toggle="dropdown" aria-expanded="false">
                                 ระดับชั้น
                             </button>
                             <div class="dropdown-menu">
                             @foreach($levels as $level)
-                                <a class="dropdown-item {{isset($_GET['level']) && $_GET['level'] == $level->grade_id ? 'active' : ''}}" href="/explore?level={{$level->grade_id}}&subject={{@$_GET['subject']}}&sort={{@$_GET['sort']}}&search={{@$_GET['search']}}">{{$level->title}}</a>
+                                <a class="dropdown-item {{isset($_GET['level']) && $_GET['level'] == $level->grade_id ? 'active' : ''}}" href="/org/1?level={{$level->grade_id}}&subject={{@$_GET['subject']}}&sort={{@$_GET['sort']}}&search={{@$_GET['search']}}">{{$level->title}}</a>
                             @endforeach
                             </div>
                         </div>
                         <div class="dropdown mb-3">
-                            <button class="btn btn-secondary btn-sm rounded-pill dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-light btn-sm rounded-pill dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                                 จัดเรียง
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item {{isset($_GET['sort']) && $_GET['sort'] == 'alphabet' ? 'active' : ''}}" href="/explore?sort=alphabet&subject={{@$_GET['subject']}}&level={{@$_GET['level']}}&search={{@$_GET['search']}}">ตามตัวอักษร</a>
-                                <a class="dropdown-item {{isset($_GET['sort']) && $_GET['sort'] == 'numberic' ? 'active' : ''}}" href="/explore?sort=numberic&subject={{@$_GET['subject']}}&level={{@$_GET['level']}}&search={{@$_GET['search']}}">ตามลำดับเริ่มต้น</a>
+                                <a class="dropdown-item {{isset($_GET['sort']) && $_GET['sort'] == 'alphabet' ? 'active' : ''}}" href="/org/1?sort=alphabet&subject={{@$_GET['subject']}}&level={{@$_GET['level']}}&search={{@$_GET['search']}}">ตามตัวอักษร</a>
+                                <a class="dropdown-item {{isset($_GET['sort']) && $_GET['sort'] == 'numberic' ? 'active' : ''}}" href="/org/1?sort=numberic&subject={{@$_GET['subject']}}&level={{@$_GET['level']}}&search={{@$_GET['search']}}">ตามลำดับเริ่มต้น</a>
                             </div>
                         </div>
                     </div>

@@ -28,6 +28,7 @@ Route::get('/contents', 'bookController@index')->middleware('verified')->name('c
 Route::get('/recommend/{id}', 'bookController@recommend')->middleware('verified')->name('recommend');
 Route::get('/un_recommend/{id}', 'bookController@un_recommend')->middleware('verified')->name('un_recommend');
 Route::get('/explore', 'ExploreController@index')->name('explore');
+Route::get('/org/{id}', 'ExploreController@org')->name('org');
 Route::get('/books', 'bookController@index')->middleware('verified')->name('books');
 Route::get('/subjects', 'bookController@subjects')->middleware('verified')->name('subjects');
 Route::get('/subject/{id}', 'bookController@topics')->middleware('verified')->name('subject');
