@@ -87,7 +87,7 @@ class ExploreController extends Controller
 
     public function org($id){
         // check user is login
-        if (!Auth::check() && Auth::user()->user_org_id == null) {
+        if (!Auth::check() && Auth::user()->user_org_id == null&&Auth::user()->user_org_id!=$id) {
             return redirect('/login?redirectTo=/org/'. $id);
         }
         
