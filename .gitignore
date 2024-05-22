@@ -14,3 +14,4 @@ yarn-error.log
 .composer
 .vscode
 .DS_Store
+docker-compose.yml

@@ -20,7 +20,7 @@ class ExploreController extends Controller
         'user_id', 
         'isPublic', 
         'fileUrl', 
-        'group_id', 
+        'org_id', 
         'cat_id', 
         'topic_id',
         'view', 

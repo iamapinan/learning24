@@ -11,7 +11,7 @@ use Imagick;
 class UploadController extends Controller
 {
 
-    protected $fieldUpload = ['id', 'title', 'description', 'agreement', 'cover_file', 'author', 'user_id', 'isPublic', 'fileUrl', 'group_id', 'cat_id', 'topic_id', 'view', 'sub_cat', 'grade','link_pretest', 'link_test', 'type_book', 'video_url'];
+    protected $fieldUpload = ['id', 'title', 'description', 'agreement', 'cover_file', 'author', 'user_id', 'isPublic', 'fileUrl', 'org_id', 'cat_id', 'topic_id', 'view', 'sub_cat', 'grade','link_pretest', 'link_test', 'type_book', 'video_url'];
     protected $fieldGroup = ['group_id', 'book_id'];
 
     /**
@@ -115,7 +115,7 @@ class UploadController extends Controller
         }
 
         $userid = ($request->userid == '') ? Auth::user()->id : $request->userid;
-        $group = Auth::user()->user_org_id == null ? 1 : Auth::user()->user_org_id;
+        $org = Auth::user()->user_org_id == null ? 1 : Auth::user()->user_org_id;
         $topic = $request->topic;
         $sub = $request->sub;
         $grade = $request->grade;
@@ -130,7 +130,7 @@ class UploadController extends Controller
             $userid, 
             $request->isGlobal,
             $mainfile, 
-            $group, 
+            $org, 
             0, 
             $topic,
             0, 
