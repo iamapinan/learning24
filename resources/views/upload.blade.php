@@ -26,11 +26,14 @@
                 @else
                     <form action="{{route('handleUpload')}}" method="POST" role="form" enctype="multipart/form-data">
                         <div class="p-3 bg-light rounded my-3">
+                            
                             <div class="form-group my-4">
                                 <label for="type_book">ประเภทไฟล์</label>
                                 <select id="type_book" class="form-control rounded-pill" name="type_book" required>
-                                    <option value="">กรุณา เลือกประเภทไฟล์ ก่อน</option>
+                                    <option value="null">กรุณา เลือกประเภทไฟล์ ก่อน</option>
+                                    @if(Auth::user()->user_org_id==null)
                                     <option value="0">HTML5 E-Book</option>
+                                    @endif
                                     <option value="1">PDF</option>
                                 </select>
                             </div>
@@ -111,10 +114,6 @@
             <script>
                 $(() => {
                     $('#type_book').on('change', function () {
-                        console.log($(this).val())
-                        if($(this).val() == '') {
-                            alert('กรุณาเลือก PDF หรือ E-Book');
-                        }
                         if($(this).val() == 0) {
                             $("#html5_file").removeClass('d-none').addClass('d-block').find('input').attr('required', true)
                             $("#pdf_file").removeClass('d-block').addClass('d-none').find('input').attr('required', false)

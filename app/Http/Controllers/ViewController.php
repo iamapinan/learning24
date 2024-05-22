@@ -19,7 +19,7 @@ class ViewController extends Controller
         'user_id', 
         'isPublic', 
         'fileUrl', 
-        'group_id', 
+        'org_id', 
         'cat_id',
         'topic_id',
         'view', 
@@ -39,7 +39,7 @@ class ViewController extends Controller
         }
 
         $content = DB::table('book')
-        ->select(DB::raw('book.id, book.title, book.description, book.cover_file, book.author, book.user_id, book.isPublic, book.fileUrl, book.group_id, book.cat_id, book.topic_id, book.view, book.sub_cat, book.grade, subcat.title as subject, grade.title as gradetitle, book.link_test,book.link_pretest, book.recommend, topics.title as topictitle, book.video_url, book.type_book'))
+        ->select(DB::raw('book.id, book.title, book.description, book.cover_file, book.author, book.user_id, book.isPublic, book.fileUrl, book.org_id, book.cat_id, book.topic_id, book.view, book.sub_cat, book.grade, subcat.title as subject, grade.title as gradetitle, book.link_test,book.link_pretest, book.recommend, topics.title as topictitle, book.video_url, book.type_book'))
         ->leftJoin('topics', 'book.topic_id', '=', 'topics.id')
         ->leftJoin('grade', 'book.grade', '=', 'grade.grade_id')
         ->leftJoin('subcat', 'book.sub_cat', '=', 'subcat.id')
