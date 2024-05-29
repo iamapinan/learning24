@@ -41,10 +41,10 @@
                     @endif
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle text-dark" id="userNavmenu" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                            {{ Auth::user()->name }}
+                            <i class="fa fa-user-circle"></i> {{ Auth::user()->name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="userNavmenu">
-                            <a class="dropdown-item" href="{{ route('profile') }}"><i class="fas fa-user-cog"></i> ตั้งค่าโปรไฟล์</a>
+                            <a class="dropdown-item" href="{{ route('profile') }}"><i class="fas fa-user-cog"></i> โปรไฟล์</a>
                             @if(Auth::user()->email_verified == 0)
                                 <a class="dropdown-item text-danger" href="{{ route('verification.resend') }}"><i class="fas fa-exclamation-triangle"></i> ส่งอีเมล์ยืนยันอีกครั้ง</a>
                             @endif
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-                <h3 class="position-relative pl-3 pt-3 border-bottom font-weight-bold">เนื้อหาครอบคลุ่ม 8 กลุ่มสาระ และอื่นๆ ตั้งแต่ ม.1-ม.6</h3>
+                <h3 class="position-relative pl-3 pt-3 border-bottom font-weight-bold">เนื้อหาครอบคลุ่ม 8 กลุ่มสาระ และอื่นๆ</h3>
                 <div class="d-flex flex-column justify-content-center my-5">
                     
                     <div class="row d-flex flex-row  justify-content-center w-100 mb-3 text-center">

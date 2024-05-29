@@ -12,29 +12,28 @@
                     <strong>Status</strong> {{ session('status') }}
                 </div>
                 @endif
-                <form action="{{route('update_profile', [$profile->id])}}" method="post">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <form>
                 <table class="table my-5 profile-table">
                     <tbody>
                         <tr>
                             <th>Fullname (*)</th>
-                            <td><input type="text" name="fullname" class="form-control" value="{{$profile->name}}" required></td>
+                            <td><input type="text" class="form-control" id="user_fullname" value="{{$profile->name}}" required></td>
                         </tr>
                         <tr>
                             <th>Email</th>
-                            <td><input type="email" name="email" class="form-control" value="{{$profile->email}}" disabled></td>
+                            <td><input type="email" class="form-control" value="{{$profile->email}}" disabled></td>
                         </tr>
                         <tr>
                             <th>Organization</th>
-                            <td><input type="text" name="organization" class="form-control" value="{{$profile->organization}}"></td>
+                            <td><input type="text" class="form-control" value="{{$profile->organization}}" disabled></td>
                         </tr>
                         <tr>
-                            <th>Verified</th>
-                            <td><input type="checkbox" name="email_verified" disabled value="{{$profile->email_verified}}" {{$profile->email_verified ? 'checked':''}}></td>
+                            <th>Verify</th>
+                            <td>{{$profile->email_verified ? 'Verified':'Not verify'}}</td>
                         </tr>
                         <tr>
                             <th></th>
-                            <td><input type="submit" value="บันทึกการแก้ไข" class="btn btn-primary rounded-xl"></td>
+                            <td><input type="button" onclick="update_org()" value="บันทึกการแก้ไข" class="btn btn-primary rounded-xl"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -43,4 +42,29 @@
         </div>
     </div>
 </div>
+<script>
+    const update_org = () => {
+        $.ajax({
+            url: '/update-user',
+            type: 'PATCH',
+            data: {
+                _token: '{{csrf_token()}}',
+                _value: document.getElementById('user_fullname').value,
+                action: 'profile_update',
+                id: {{$profile->id}}
+            },
+            success: (response) => {
+                if (response.status == 'success') {
+                    window.location.reload();
+                } else {
+                    alert("Something went wrong")
+                }
+            },
+            error: (response) => {
+                console.log(response)
+                // alert(response.status);
+            }
+        });
+    }
+</script>
 @endsection

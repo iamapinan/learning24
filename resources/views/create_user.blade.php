@@ -15,7 +15,7 @@
                     <select name="organization" id="organization" class="form-control rounded-pill" required>
                         <option value="0">ส่วนกลาง</option>
                         @foreach($org as $o)
-                        <option value="{{$o->id}}">{{$o->title}}</option>
+                        <option value="{{$o->id}}">{{$o->title}} - {{$o->type}}</option>
                         @endforeach
                     </select>
                 </div>

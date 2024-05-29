@@ -18,6 +18,14 @@
                     <label for="number">จำนวนผู้ใช้ที่ต้องการ</label>
                     <input type="number" name="number" min="1" max="1000" placeholder="1-1000" id="number" class="form-control rounded-pill" required>
                 </div>
+                <div class="form-group">
+                    <label for="org_type">ประเภท</label>
+                    <select name="org_type" id="org_type" class="form-control rounded-pill" required>
+                        @foreach($type as $item)
+                        <option value="{{$item->id}}">{{ $item->type_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="form-group mt-5">
                     <button type="submit" class="btn btn-dark rounded-pill mt-3 btn-block"><i class="fas fa-plus-circle"></i> สร้างองค์กร</button>
                 </div>
@@ -27,7 +35,6 @@
 </div>
 <script>
     $(() => {
-
         $("#create_org_form").submit((event) => {
             event.preventDefault();
             $.ajax({

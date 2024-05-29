@@ -42,8 +42,14 @@ class UserController extends Controller
         $user = Auth::user();
         if($user->role_id != 1)
             return redirect('/');
-        $organization = DB::table('organization')->get();
-
+        $organization = DB::table('organization')
+        ->select(
+            'organization.id',
+            'organization.title',
+            'org_type.type_name as type'
+        )
+        ->leftJoin('org_type', 'organization.type_id', '=', 'org_type.id')->get();
+     
         return view('create_user')->with(['org' => $organization]);
     }
 
@@ -54,7 +60,7 @@ class UserController extends Controller
         $role = $request->input('role');
         $current_date_time = now();
         $org = DB::table('organization')->where('id', $request->input('organization'))->first();
-
+       
         for($i = 0; $i < $number_of_user; $i++) {
             $password = str_random(8);
             $random_name = random_int(100000, 999999);
@@ -107,6 +113,15 @@ class UserController extends Controller
                   'organization' => $org_data->title,
                   'user_org_id' => $request->input('org_value')
                 ]);
+            return response()->json(['status' => 'success']);
+        }
+
+        if(  $action == 'profile_update'  ) {
+            $data = array(
+                'name' => $request->input('_value')
+            );
+            DB::table('users')->where('id', $id )
+              ->update($data);
             return response()->json(['status' => 'success']);
         }
 

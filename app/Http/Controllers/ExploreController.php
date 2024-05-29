@@ -38,7 +38,23 @@ class ExploreController extends Controller
             return redirect('/login?redirectTo=/explore');
         }
         // get subject and level
-        $levels = DB::table('grade')->get();
+        if(Auth::user()->user_org_id == null) {
+            $levels = DB::table('grade')->get();
+            $org_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+        } else {
+            
+            $org_type = DB::table('organization')
+            ->select("org_type.grades")
+            ->leftJoin("org_type", "organization.type_id", "=", "org_type.id")
+            ->where("organization.id", Auth::user()->user_org_id)
+            ->first();
+            $org_list = json_decode($org_type->grades);
+            
+            $levels = DB::table('grade')
+            ->whereIn('grade_id', collect($org_list))
+            ->orderBy('grade_id', 'ASC')
+            ->get();
+        }
         $subjects = DB::table('subcat')->get();
         $title = 'เนื้อหาทั้งหมด';
 
@@ -64,6 +80,10 @@ class ExploreController extends Controller
         
         $contents_query = BookModel::Query()->where('isPublic', 1)
         ->where('org_id', 1)
+        ->whereIn(
+            'grade',
+            collect($org_list)
+        )
         ->when(isset($_GET['subject']) && $_GET['subject'] != 0 && $_GET['subject'] != null, function ($query) {
             return $query->where('sub_cat', $_GET['subject']);
         })
@@ -99,7 +119,23 @@ class ExploreController extends Controller
         $organization = DB::table('organization')->where('id', Auth::user()->user_org_id)->first();
         
         // get subject and level
-        $levels = DB::table('grade')->get();
+        if(Auth::user()->user_org_id == null) {
+            $levels = DB::table('grade')->get();
+            $org_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+        } else {
+            
+            $org_type = DB::table('organization')
+            ->select("org_type.grades")
+            ->leftJoin("org_type", "organization.type_id", "=", "org_type.id")
+            ->where("organization.id", Auth::user()->user_org_id)
+            ->first();
+            $org_list = json_decode($org_type->grades);
+            
+            $levels = DB::table('grade')
+            ->whereIn('grade_id', collect($org_list))
+            ->orderBy('grade_id', 'ASC')
+            ->get();
+        }
         $subjects = DB::table('subcat')->get();
         $title = 'เนื้อหาทั้งหมด';
 
@@ -124,6 +160,10 @@ class ExploreController extends Controller
         
         $contents_query = BookModel::Query()->where('isPublic', 1)
         ->where('org_id', $id)
+        ->whereIn(
+            'grade',
+            collect($org_list)
+        )
         ->when(isset($_GET['subject']) && $_GET['subject'] != 0 && $_GET['subject'] != null, function ($query) {
             return $query->where('sub_cat', $_GET['subject']);
         })

@@ -21,6 +21,7 @@
                     <thead>
                         <tr>
                             <th>Organization</th>
+                            <th>Type</th>
                             <th>Verified</th>
                         </tr>
                     </thead>
@@ -28,6 +29,7 @@
                     @foreach($org as $o)
                         <tr data-id="{{$o->id}}">
                             <td id="org_{{$o->id}}">{{$o->title}} <a onclick="edit_org({{$o->id}},'{{$o->title}}')" class="badge badge-warning"><i class="fa fa-pen"></i></a></td>
+                            <td>{{$o->type_name}}</td>
                             <td><span class="text-{{$o->status == 1 ? 'success':'danger'}}">{{$o->status == 1 ? 'ปกติ': 'ยกเลิก'}}</span></td>
                         </tr>
                     @endforeach

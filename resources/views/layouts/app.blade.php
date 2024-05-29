@@ -65,27 +65,44 @@
             
                 @if(!Auth::guest() && Auth::user()->role_id == 1)
                 <li class="nav-item"><a class="nav-link btn btn-warning btn-sm text-dark rounded-pill px-3" href="{{ route('upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> อัพโหลด</a></li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-dark" id="userNavmenu" role="button">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle text-dark" id="navbarScrollingDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-user-circle"></i> {{ Auth::user()->name }}
                     </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarScrollingDropdown">
+                        <li><a class="dropdown-item" href="{{route('profile')}}"><i class="fa fa-user"></i> โปรไฟล์</a></li>
+                        <li><a class="dropdown-item" href="{{route('privacy')}}"><i class="fas fa-shield-alt"></i> นโยบายความเป็นส่วนตัว</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item text-dark" role="button" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    </ul>
                 </li>
                 @else
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-secondary" id="userNavmenu" role="button">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle text-secondary" id="navbarScrollingDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-user-circle"></i> {{ Auth::user()->name }}
                     </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarScrollingDropdown">
+                        <li><a class="dropdown-item" href="{{route('profile')}}"><i class="fa fa-user"></i> โปรไฟล์</a></li>
+                        <li><a class="dropdown-item" href="{{route('privacy')}}"><i class="fas fa-shield-alt"></i> นโยบายความเป็นส่วนตัว</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item text-dark" role="button" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    </ul>
                 </li>
                 @endif
-            <li class="nav-item">
-                <a class="nav-link text-dark" role="button" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    {{ csrf_field() }}
-                </form>
-            </li>
-            
             @endif
         </ul>
     </div>

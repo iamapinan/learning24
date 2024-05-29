@@ -33,6 +33,7 @@ class UploadController extends Controller
     {
         $sub = $this->getSubcat();
         $grade = $this->getGrade();
+       
         return view('upload')
         ->with('sub', $sub)
         ->with('grade', $grade);
@@ -50,7 +51,24 @@ class UploadController extends Controller
 
     public function getGrade()
     {
-        return DB::table('grade')->select('grade_id as id', 'title')->get();
+        if(Auth::user()->user_org_id == null) {
+            $levels = DB::table('grade')->select('grade_id as id', 'title')->get();
+        } else {
+            
+            $org_type = DB::table('organization')
+            ->select("org_type.grades")
+            ->leftJoin("org_type", "organization.type_id", "=", "org_type.id")
+            ->where("organization.id", Auth::user()->user_org_id)
+            ->first();
+            $org_list = json_decode($org_type->grades);
+            
+            $levels = DB::table('grade')
+            ->select('grade_id as id', 'title')
+            ->whereIn('grade_id', collect($org_list))
+            ->orderBy('grade_id', 'ASC')
+            ->get();
+        }
+        return $levels;
     }
 
     public function getTopics(Request $request)
@@ -115,7 +133,7 @@ class UploadController extends Controller
         }
 
         $userid = ($request->userid == '') ? Auth::user()->id : $request->userid;
-        $org = Auth::user()->user_org_id == null ? 1 : Auth::user()->user_org_id;
+        $org = Auth::user()->user_org_id;
         $topic = $request->topic;
         $sub = $request->sub;
         $grade = $request->grade;

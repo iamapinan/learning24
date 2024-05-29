@@ -26,18 +26,26 @@ class OrgController extends Controller
     public function index(Request $request)
     {
         if($request->s !== '')
-            $data = DB::table('organization')->where('title', 'like', '%' . $request->s . '%')->select()->orderBy('id', 'DESC')->paginate(20);
+            $data = DB::table('organization')
+            ->where('organization.title', 'like', '%' . $request->s . '%')
+            ->select()
+            ->leftJoin('org_type', 'organization.type_id', '=', 'org_type.id')
+            ->orderBy('organization.id', 'DESC')
+            ->paginate(20);
         else
-            $data = DB::table('organization')->select()->orderBy('id', 'DESC')->paginate(20);
-        
+        $data = DB::table('organization')
+            ->select()
+            ->leftJoin('org_type', 'organization.type_id', '=', 'org_type.id')
+            ->orderBy('organization.id', 'DESC')
+            ->paginate(20);
         return view('OrgManager')->with(['org' => $data]);
     }
 
     public function create() {
         
         $organization = DB::table('organization')->get();
-
-        return view('create_org')->with(['org' => $organization]);
+        $org_type = DB::table("org_type")->get();
+        return view('create_org')->with(['org' => $organization, 'type' => $org_type]);
     }
 
     public function store(Request $request) {
@@ -46,6 +54,7 @@ class OrgController extends Controller
             'title' => $request->input('title'),
             'user_limit' => $request->input('number'),
             'status' => 1,
+            'type_id' => $request->input('org_type')
         );
         DB::table('organization')->insert($data);
         return response()->json(['status' => 'success']);
