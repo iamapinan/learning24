@@ -31,9 +31,7 @@
                                 <label for="type_book">ประเภทไฟล์</label>
                                 <select id="type_book" class="form-control rounded-pill" name="type_book" required>
                                     <option value="null">กรุณา เลือกประเภทไฟล์ ก่อน</option>
-                                    @if(Auth::user()->user_org_id==null)
                                     <option value="0">HTML5 E-Book</option>
-                                    @endif
                                     <option value="1">PDF</option>
                                 </select>
                             </div>
