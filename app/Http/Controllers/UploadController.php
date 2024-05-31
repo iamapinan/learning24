@@ -133,7 +133,7 @@ class UploadController extends Controller
         }
 
         $userid = ($request->userid == '') ? Auth::user()->id : $request->userid;
-        $org = Auth::user()->user_org_id;
+        $org = Auth::user()->user_org_id == null ? 1 : Auth::user()->user_org_id;
         $topic = $request->topic;
         $sub = $request->sub;
         $grade = $request->grade;
