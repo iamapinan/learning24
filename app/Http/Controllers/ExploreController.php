@@ -80,6 +80,7 @@ class ExploreController extends Controller
         
         $contents_query = BookModel::Query()->where('isPublic', 1)
         ->where('org_id', 1)
+        ->Orwhere('org_id', null)
         ->whereIn(
             'grade',
             collect($org_list)
