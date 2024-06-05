@@ -126,7 +126,6 @@ class LoginController extends Controller
             $this->fireLockoutEvent($request);
             return $this->sendLockoutResponse($request);
         }
-        
         if ($this->attemptLogin($request)) {
             
             if (auth()->user()->email_verified == 1) {
@@ -145,7 +144,6 @@ class LoginController extends Controller
             }
             
         }
-
         $this->incrementLoginAttempts($request);
         return $this->sendFailedLoginResponse($request);
     }

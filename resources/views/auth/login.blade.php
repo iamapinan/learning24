@@ -7,7 +7,9 @@
             <h1 class="text-center font-weight-bold">เข้าสู่ระบบ</h1>
             <div class="row">
                 <form class="form-horizontal col-md-12 mt-3 mb-3 p-5" method="POST" action="{{ route('login') }}">
-                    {{ csrf_field() }}
+                   
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    
                     @if (session('confirmation'))
                         <div class="alert alert-info" role="alert">
                             {!! session('confirmation') !!}

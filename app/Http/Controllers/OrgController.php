@@ -25,19 +25,29 @@ class OrgController extends Controller
      */
     public function index(Request $request)
     {
+        $select_fields = [
+            'organization.id as id', 
+            'organization.title as title', 
+            'organization.user_limit as user_limit',
+            'organization.status as status',
+            'org_type.type_name as type_name',
+            'org_type.type_name_eng as type_name_eng'
+        ];
         if($request->s !== '')
             $data = DB::table('organization')
             ->where('organization.title', 'like', '%' . $request->s . '%')
-            ->select()
+            ->select($select_fields)
             ->leftJoin('org_type', 'organization.type_id', '=', 'org_type.id')
             ->orderBy('organization.id', 'DESC')
             ->paginate(20);
         else
         $data = DB::table('organization')
-            ->select()
+            ->select($select_fields)
             ->leftJoin('org_type', 'organization.type_id', '=', 'org_type.id')
             ->orderBy('organization.id', 'DESC')
             ->paginate(20);
+
+
         return view('OrgManager')->with(['org' => $data]);
     }
 

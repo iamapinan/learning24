@@ -4,6 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            
             <h3>เนื้อหาส่วนกลาง</h3>
             <div class="my-3 rounded-xl d-flex flex-column shelf_cover bg-opacity-50" style="background-image: url(/images/shelf.jpg);">
                 <div class="page-cover d-flex flex-column h-100 py-3 px-5">
