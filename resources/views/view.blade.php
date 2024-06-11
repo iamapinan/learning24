@@ -68,7 +68,7 @@
 <script>
     $(function() {
     var height = window.innerHeight;
-    $('iframe').css('height', height-200)
+    $('iframe').css('height', height)
 	$('.tabs li.tab-link').on('click', function() {
 		var tabId = $(this).attr('data-tab');
 
@@ -91,7 +91,7 @@
             content.addClass('fullscreen')
             _this.html('<i class="fa fa-compress"></i>&nbsp; ย่อขนาด')
             _this.css( 'position', 'absolute' )
-            _this.css( 'top', '90px' )
+            _this.css( 'top', '10px' )
             _this.css( 'right', '20px' )
         }
         // content.find('iframe').css('height')
