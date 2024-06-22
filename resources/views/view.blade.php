@@ -50,6 +50,9 @@
         <div class="tab-pane p-5" id="about">
             <h3 class="text-white">{{$content->title}}</h3>
             <div class="text-white">{{$content->description}}</div>
+            <p class="my-3">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{Request::url()}}">
+            </p>
             <p class="ml-3">
                 @if(!empty($content->gradetitle))
                 <div class="text-white ml-3"><i class="fa fa-graduation-cap"></i> {{$content->gradetitle}} </div>

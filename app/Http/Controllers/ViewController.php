@@ -35,7 +35,7 @@ class ViewController extends Controller
     public function index(Request $request) {
 
         if (!Auth::check()) {
-            return redirect('/login?redirectTo=/explore');
+            return redirect('/login?redirectTo=' . $request->url());
         }
         if(Auth::user()->user_org_id == null) {
             $levels = DB::table('grade')->get();
