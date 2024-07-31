@@ -28,8 +28,7 @@ class ExploreController extends Controller
         'grade', 
         'subject', 
         'gradetitle',
-        'link_test',
-        'recommend'
+        'link_test'
     ];
     //
     public function index(Request $request){
