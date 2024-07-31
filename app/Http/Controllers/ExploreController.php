@@ -32,6 +32,10 @@ class ExploreController extends Controller
     ];
     //
     public function index(Request $request){
+        // Get Auth data
+        $user = Auth::user();
+        echo json_encode($user);
+        exit;
         // check user is login
         if (!Auth::check()) {
             return redirect('/login?redirectTo=/explore');
