@@ -72,8 +72,6 @@ class UserController extends Controller
                 'organization' => $org->title,
                 'user_org_id' => $org->id,
                 'role_id' => $role,
-                'birthday' => '0000-00-00', 
-                'email_verified_at' => '0000-00-00 00:00:00', 
                 'email_verified' => 1, 
                 'email_verification_token' => '',
                 'remember_token' => '',

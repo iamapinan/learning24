@@ -72,6 +72,7 @@ class OrgController extends Controller
 
     public function delete($id) {
         DB::table('users')->where('id', $id)->delete();
+        DB::table('organization')->where('id', $id)->delete();
         return response()->json(['status' => 'success']);
     }
 

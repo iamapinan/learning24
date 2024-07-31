@@ -35,18 +35,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($books as $b)
-                        <tr data-id="{{$b->id}}">
+                    @foreach($books as $book)
+                        <tr data-id="{{$book->id}}">
                             <th scope="row" class="col-2">
-                                <a href="view/{{$b->id}}" class="d-flex justify-content-center mx-auto">
-                                    <img src="{{url('storage/book/'.str_replace('thumb','large', $b->cover_file) ) }}" style="height: 120px;object-fit: contain;">
+                                <a href="view/{{$book->id}}" class="d-flex justify-content-center mx-auto">
+                                    <img src="{{url('storage/book/'.str_replace('thumb','large', $book->cover_file) ) }}" style="height: 120px;object-fit: contain;">
                                 </a>
                             </th>
-                            <td class="col-3">{{ $b->title }}</td>
-                            <td class="col-3">{{ $b->description }}</td>
-                            <td class="col-1">{{ $b->gradetitle }}</td>
-                            <td class="col-2">{{ $b->subject . ' / ' . $b->topictitle }}</td>
-                            <td class="col-2"><a href="{{route('delete',$b->id)}}" class="card-link text-danger"><i class="fas fa-trash"></i> ลบ</a></td>
+                            <td class="col-3">{{ $book->title }}</td>
+                            <td class="col-3">{{ $book->description }}</td>
+                            <td class="col-1">{{ $book->gradetitle }}</td>
+                            <td class="col-2">{{ $book->subject . ' / ' . $book->topictitle }}</td>
+                            <td class="col-2"><a href="{{route('delete',$book->id)}}" class="card-link text-danger"><i class="fas fa-trash"></i> ลบ</a></td>
                         </tr>
                     @endforeach
                     </tbody>

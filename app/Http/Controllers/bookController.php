@@ -26,8 +26,7 @@ class bookController extends Controller
         'grade', 
         'subject', 
         'gradetitle',
-        'link_test',
-        'recommend'
+        'link_test'
     ];
 
     public function __construct()
@@ -36,11 +35,14 @@ class bookController extends Controller
     }
     //
     public function index(){
-
-        $books = DB::table('all_book_data')
-        ->select(DB::raw('all_book_data.id, all_book_data.title, all_book_data.description, all_book_data.cover_file, all_book_data.author, all_book_data.user_id, all_book_data.isPublic, all_book_data.fileUrl, all_book_data.org_id, all_book_data.cat_id, all_book_data.topic_id, all_book_data.view, all_book_data.sub_cat, all_book_data.grade, all_book_data.subject, all_book_data.gradetitle, all_book_data.link_test, all_book_data.recommend, topics.title as topictitle'))
-        ->leftJoin('topics', 'all_book_data.topic_id', '=', 'topics.id')
-        ->orderBy('id', 'DESC')
+        $books = [];
+        $books = DB::table('book')
+        ->select(DB::raw('book.id, book.title, book.description, book.cover_file, book.author, book.user_id, book.isPublic, book.fileUrl, book.org_id, book.cat_id, subcat.title as subject, book.topic_id, book.view, book.sub_cat, book.grade,  grade.title as gradetitle, topics.title as topictitle'))
+        ->leftJoin('grade', 'book.grade', '=', 'grade_id')
+        ->leftJoin('subcat', 'book.sub_cat', '=', 'subcat.id')
+        ->leftJoin('topics', 'book.topic_id', '=', 'topics.id')
+        ->where('book.user_id', Auth::id())
+        ->orderBy('book.id', 'DESC')
         ->paginate(20);
        
         return view('book')->with('books', $books);
@@ -48,14 +50,14 @@ class bookController extends Controller
 
     public function search(Request $request){
 
-        $books = DB::table('all_book_data')
+        $books = DB::table('book')
         ->select($this->fields)
         ->where('user_id', Auth::id())
         ->where('title', 'like', '%' . $request->q . '%')
         ->orWhere('description', 'like', '%' . $request->q . '%')
         ->orderBy('id', 'DESC')
         ->paginate(20);
-       
+
         return view('book')->with('books', $books);
     }
 
