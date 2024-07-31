@@ -28,11 +28,14 @@ class ExploreController extends Controller
         'grade', 
         'subject', 
         'gradetitle',
-        'link_test',
-        'recommend'
+        'link_test'
     ];
     //
     public function index(Request $request){
+        // Get Auth data
+        $user = Auth::user();
+        echo json_encode($user);
+        exit;
         // check user is login
         if (!Auth::check()) {
             return redirect('/login?redirectTo=/explore');
