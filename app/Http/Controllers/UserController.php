@@ -60,7 +60,8 @@ class UserController extends Controller
         $role = $request->input('role');
         $current_date_time = now();
         $org = DB::table('organization')->where('id', $request->input('organization'))->first();
-       
+        dd($request->input('organization'));
+
         for($i = 0; $i < $number_of_user; $i++) {
             $password = str_random(8);
             $random_name = random_int(100000, 999999);
