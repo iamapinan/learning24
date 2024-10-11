@@ -38,11 +38,11 @@ Route::get('/subjects', 'bookController@subjects')->middleware('verified')->name
 Route::get('/subject/{id}', 'bookController@topics')->middleware('verified')->name('subject');
 Route::get('/topic/{id}', 'bookController@topic')->middleware('verified')->name('topic');
 Route::get('/topics', 'UploadController@getTopics')->middleware('verified')->name('topics');
-Route::get('/create-topic/{id}', 'bookController@create_topic')->middleware('verified')->name('create-topic');
-Route::get('/edit-topic/{id}', 'bookController@edit_topic')->middleware('verified')->name('edit-topic');
-Route::post('/topic_store', 'bookController@store_topic')->middleware('verified')->name('store-topic');
-Route::patch('/topic_update', 'bookController@update_topic')->middleware('verified')->name('update-topic');
-Route::get('/topic_search', 'bookController@search_topic')->middleware('verified')->name('search-topic');
+Route::get('/create-topic/{id}', 'bookController@create_topic')->name('create-topic');
+Route::get('/edit-topic/{id}', 'bookController@edit_topic')->name('edit-topic');
+Route::post('/topic_store', 'bookController@store_topic')->name('store-topic');
+Route::patch('/topic_update', 'bookController@update_topic')->name('update-topic');
+Route::get('/topic_search', 'bookController@search_topic')->name('search-topic');
 Route::delete('/delete-topic/{id}', 'bookController@delete_topic')->middleware('verified')->name('delete-topic');
 Route::get('/profile', 'UserController@profile')->middleware('verified')->name('profile');
 Route::get('/search', 'bookController@search')->middleware('verified')->name('search');
