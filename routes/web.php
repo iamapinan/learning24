@@ -15,7 +15,7 @@ Route::get('/', 'WelcomeController@index')->name('welcome');
 Route::get('/privacy', 'PublicPageController@privacy')->name('privacy');
 Auth::routes(['verify' => true]);
 Route::get('/view/{id}', 'ViewController@index')->name('view');
-Route::get('/upload', 'UploadController@index')->middleware('verified')->name('upload');
+Route::get('/upload', 'UploadController@index')->name('upload');
 Route::get('/home', 'HomeController@index')->middleware('verified')->name('home');
 Route::get('/report', 'HomeController@index')->middleware('verified')->name('report');
 Route::get('/banner', 'bannerController@index')->middleware('verified')->name('banner');
