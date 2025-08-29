@@ -55,7 +55,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="attachment">วิดีโอ <span class="text-muted">ไม่บังคับ</span></label>
-                                <input type="url" class="form-control rounded-pill" id="video_url" name="video_url" value="{{ old('video_url') }}" placeholder="url ของวิีดีโอจาก YouTube ไม่ต้องย่อ">
+                                <input type="url" class="form-control rounded-pill" id="video_url" name="video_url" value="{{ old('video_url') }}" placeholder="url ของวิีดีโอ MP4">
                             </div>
                         </div>
                         <div class="form-group">
