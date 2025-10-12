@@ -44,7 +44,24 @@
         </div>
         <div class="tab-pane" id="video">
         @if($content->video_url != '')
-            <iframe src="https://www.youtube.com/embed/{{explode('v=', $content->video_url)[1]}}" frameborder="0" class="w-100"></iframe>
+            @if(strpos($content->video_url, 'youtube.com') !== false || strpos($content->video_url, 'youtu.be') !== false)
+                @php
+                    $video_id = '';
+                    if(strpos($content->video_url, 'youtube.com') !== false) {
+                        $video_id = explode('v=', $content->video_url)[1];
+                        $video_id = explode('&', $video_id)[0];
+                    } elseif(strpos($content->video_url, 'youtu.be') !== false) {
+                        $video_id = explode('youtu.be/', $content->video_url)[1];
+                        $video_id = explode('?', $video_id)[0];
+                    }
+                @endphp
+                <iframe src="https://www.youtube.com/embed/{{$video_id}}" frameborder="0" class="w-100" allowfullscreen></iframe>
+            @else
+                <video controls class="w-100">
+                    <source src="{{$content->video_url}}" type="video/mp4">
+                    เบราว์เซอร์ของคุณไม่รองรับการเล่นวิดีโอ
+                </video>
+            @endif
         @endif
         </div>
         <div class="tab-pane p-5" id="about">

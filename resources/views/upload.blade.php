@@ -54,7 +54,7 @@
                                 <input type="url" class="form-control rounded-pill" id="attachment" name="attachment" value="{{ old('attachment') }}" placeholder="url ข้อสอบ/แบบฝึกหัดจาก Google form ไม่ต้องย่อ">
                             </div>
                             <div class="form-group">
-                                <label for="attachment">วิดีโอ <span class="text-muted">ไม่บังคับ</span></label>
+                                <label for="attachment">URL วิดีโอ .mp4 เท่านั้น<span class="text-muted">ไม่บังคับ</span></label>
                                 <input type="url" class="form-control rounded-pill" id="video_url" name="video_url" value="{{ old('video_url') }}" placeholder="url ของวิีดีโอ MP4">
                             </div>
                         </div>
