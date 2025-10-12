@@ -12,10 +12,10 @@
     <ul class="tabs ml-5" role="tablist">
         <li class="tab-link current rounded-top py-2 px-3" data-tab="book">อีบุ๊ก/PDF</li>
         @if($content->link_pretest != '')
-        <li class="tab-link rounded-top py-2 px-3" data-tab="quizebefore">ข้อสอบก่อนเรียน</li>
+        <li class="tab-link rounded-top py-2 px-3" data-tab="quizebefore">ทดสอบ</li>
         @endif
         @if($content->link_test != '')
-        <li class="tab-link rounded-top py-2 px-3" data-tab="quize">ข้อสอบหลังเรียน</li>
+        <li class="tab-link rounded-top py-2 px-3" data-tab="quize">สื่อการเรียนรู้</li>
         @endif
         @if($content->video_url != '')
         <li class="tab-link rounded-top py-2 px-3" data-tab="video">วิดีโอ</li>
