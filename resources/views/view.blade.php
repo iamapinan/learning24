@@ -44,7 +44,7 @@
         </div>
         <div class="tab-pane" id="video">
         @if($content->video_url != '')
-	    @if(strpos($content->video_url, 'youtube.com') !== false || strpos($content->video_url, 'youtu.be') !== false)
+            @if(strpos($content->video_url, 'youtube.com') !== false || strpos($content->video_url, 'youtu.be') !== false)
                 @php
                     $video_id = '';
                     if(strpos($content->video_url, 'youtube.com') !== false) {
@@ -62,7 +62,7 @@
                     เบราว์เซอร์ของคุณไม่รองรับการเล่นวิดีโอ
                 </video>
             @endif
-	@endif
+        @endif
         </div>
         <div class="tab-pane p-5" id="about">
             <h3 class="text-white">{{$content->title}}</h3>
