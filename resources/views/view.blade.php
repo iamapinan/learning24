@@ -12,10 +12,10 @@
     <ul class="tabs ml-5" role="tablist">
         <li class="tab-link current rounded-top py-2 px-3" data-tab="book">อีบุ๊ก/PDF</li>
         @if($content->link_pretest != '')
-        <li class="tab-link rounded-top py-2 px-3" data-tab="quizebefore">ข้อสอบก่อนเรียน</li>
+        <li class="tab-link rounded-top py-2 px-3" data-tab="quizebefore">ทดสอบ</li>
         @endif
         @if($content->link_test != '')
-        <li class="tab-link rounded-top py-2 px-3" data-tab="quize">ข้อสอบหลังเรียน</li>
+        <li class="tab-link rounded-top py-2 px-3" data-tab="quize">สื่อการเรียนรู้</li>
         @endif
         @if($content->video_url != '')
         <li class="tab-link rounded-top py-2 px-3" data-tab="video">วิดีโอ</li>
@@ -44,8 +44,25 @@
         </div>
         <div class="tab-pane" id="video">
         @if($content->video_url != '')
-            <iframe src="https://www.youtube.com/embed/{{explode('v=', $content->video_url)[1]}}" frameborder="0" class="w-100"></iframe>
-        @endif
+	    @if(strpos($content->video_url, 'youtube.com') !== false || strpos($content->video_url, 'youtu.be') !== false)
+                @php
+                    $video_id = '';
+                    if(strpos($content->video_url, 'youtube.com') !== false) {
+                        $video_id = explode('v=', $content->video_url)[1];
+                        $video_id = explode('&', $video_id)[0];
+                    } elseif(strpos($content->video_url, 'youtu.be') !== false) {
+                        $video_id = explode('youtu.be/', $content->video_url)[1];
+                        $video_id = explode('?', $video_id)[0];
+                    }
+                @endphp
+                <iframe src="https://www.youtube.com/embed/{{$video_id}}" frameborder="0" class="w-100" allowfullscreen></iframe>
+            @else
+                <video controls class="w-100">
+                    <source src="{{$content->video_url}}" type="video/mp4">
+                    เบราว์เซอร์ของคุณไม่รองรับการเล่นวิดีโอ
+                </video>
+            @endif
+	@endif
         </div>
         <div class="tab-pane p-5" id="about">
             <h3 class="text-white">{{$content->title}}</h3>

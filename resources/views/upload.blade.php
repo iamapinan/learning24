@@ -46,16 +46,16 @@
                                 <p class="text-danger">กรุณาเลือกไฟล์ pdf เท่านั้นและจำกัดไม่เกิน 20mb</p>
                             </div>
                             <div class="form-group">
-                                <label for="before_attachment">ข้อสอบก่อนเรียน <span class="text-muted">ไม่บังคับ</span></label>
+                                <label for="before_attachment">ทดสอบ <span class="text-muted">ไม่บังคับ</span></label>
                                 <input type="url" class="form-control rounded-pill" id="attachment" name="before_attachment" value="{{ old('before_attachment') }}" placeholder="url ข้อสอบ/แบบฝึกหัดจาก Google form ไม่ต้องย่อ">
                             </div>
                             <div class="form-group">
-                                <label for="attachment">ข้อสอบหลังเรียน <span class="text-muted">ไม่บังคับ</span></label>
-                                <input type="url" class="form-control rounded-pill" id="attachment" name="attachment" value="{{ old('attachment') }}" placeholder="url ข้อสอบ/แบบฝึกหัดจาก Google form ไม่ต้องย่อ">
+				<label for="attachment">สื่อการเรียนรู้ <span class="text-muted">ไม่บังคับ</span></label>
+				<input type="url" class="form-control rounded-pill" id="attachment" name="attachment" value="{{ old('attachment') }}" placeholder="url ข้อสอบ/แบบฝึกหัดจาก Google form ไม่ต้องย่อ">
                             </div>
                             <div class="form-group">
-                                <label for="attachment">วิดีโอ <span class="text-muted">ไม่บังคับ</span></label>
-                                <input type="url" class="form-control rounded-pill" id="video_url" name="video_url" value="{{ old('video_url') }}" placeholder="url ของวิีดีโอจาก YouTube ไม่ต้องย่อ">
+				<label for="attachment">URL วิดีโอ .mp4 เท่านั้น<span class="text-muted">ไม่บังคับ</span></label>
+				<input type="url" class="form-control rounded-pill" id="video_url" name="video_url" value="{{ old('video_url') }}" placeholder="url ของวิีดีโอ">
                             </div>
                         </div>
                         <div class="form-group">
